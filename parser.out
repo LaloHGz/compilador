@@ -1,0 +1,1826 @@
+Created by PLY version 3.11 (http://www.dabeaz.com/ply)
+
+Grammar
+
+Rule 0     S' -> Programa
+Rule 1     Programa -> PROGRAM ID SEMICOLON Declare_var Declare_func MAIN BODY END
+Rule 2     Declare_var -> VARS
+Rule 3     Declare_var -> vacio
+Rule 4     VARS -> VAR Variables
+Rule 5     Variables -> List_ids COLON Type SEMICOLON More_variables
+Rule 6     More_variables -> Variables
+Rule 7     More_variables -> vacio
+Rule 8     List_ids -> ID More_ids
+Rule 9     More_ids -> COMMA List_ids
+Rule 10    More_ids -> vacio
+Rule 11    Type -> INT
+Rule 12    Type -> FLOAT
+Rule 13    Declare_func -> FUNCS More_func
+Rule 14    Declare_func -> vacio
+Rule 15    More_func -> Declare_func
+Rule 16    More_func -> vacio
+Rule 17    FUNCS -> VOID ID LPARENTHESES Parameters RPARENTHESES LBRACKET Declare_var BODY RBRACKET SEMICOLON
+Rule 18    Parameters -> ID COLON Type More_parameters
+Rule 19    Parameters -> vacio
+Rule 20    More_parameters -> COMMA Parameters
+Rule 21    More_parameters -> vacio
+Rule 22    BODY -> LCBRACKET Declare_statement RCBRACKET
+Rule 23    Declare_statement -> STATEMENT Declare_statement
+Rule 24    Declare_statement -> vacio
+Rule 25    STATEMENT -> ASSIGN
+Rule 26    STATEMENT -> CONDITION
+Rule 27    STATEMENT -> CYCLE
+Rule 28    STATEMENT -> F_CALL
+Rule 29    STATEMENT -> PRINTF
+Rule 30    ASSIGN -> ID EQUALS EXPRESION SEMICOLON
+Rule 31    EXPRESION -> EXP Comp_logic
+Rule 32    Comp_logic -> Op_logic EXP
+Rule 33    Comp_logic -> vacio
+Rule 34    Op_logic -> GREATER
+Rule 35    Op_logic -> LESS
+Rule 36    Op_logic -> NOT_EQUALS
+Rule 37    EXP -> TERMINO Sum_res
+Rule 38    Sum_res -> PLUS EXP
+Rule 39    Sum_res -> MINUS EXP
+Rule 40    Sum_res -> vacio
+Rule 41    TERMINO -> FACTOR Mult_div
+Rule 42    Mult_div -> MULTIPLICATION TERMINO
+Rule 43    Mult_div -> DIVISION TERMINO
+Rule 44    Mult_div -> vacio
+Rule 45    FACTOR -> LPARENTHESES EXPRESION RPARENTHESES
+Rule 46    FACTOR -> Sum_res_factor ID_CONST
+Rule 47    Sum_res_factor -> PLUS
+Rule 48    Sum_res_factor -> MINUS
+Rule 49    Sum_res_factor -> vacio
+Rule 50    ID_CONST -> ID
+Rule 51    ID_CONST -> CTE
+Rule 52    CTE -> CTE_INT
+Rule 53    CTE -> CTE_FLOAT
+Rule 54    PRINTF -> PRINT LPARENTHESES List_expresions RPARENTHESES SEMICOLON
+Rule 55    List_expresions -> Opt_exp More_expresions
+Rule 56    Opt_exp -> EXPRESION
+Rule 57    Opt_exp -> CTE_STRING
+Rule 58    More_expresions -> COMMA List_expresions
+Rule 59    More_expresions -> vacio
+Rule 60    CYCLE -> DO BODY WHILE LPARENTHESES EXPRESION RPARENTHESES SEMICOLON
+Rule 61    CONDITION -> IF LPARENTHESES EXPRESION RPARENTHESES BODY Else_condition SEMICOLON
+Rule 62    Else_condition -> ELSE BODY
+Rule 63    Else_condition -> vacio
+Rule 64    F_CALL -> ID LPARENTHESES F_expresion RPARENTHESES SEMICOLON
+Rule 65    F_expresion -> List_fexpresions
+Rule 66    F_expresion -> vacio
+Rule 67    List_fexpresions -> EXPRESION More_fexpresions
+Rule 68    More_fexpresions -> COMMA List_fexpresions
+Rule 69    More_fexpresions -> vacio
+Rule 70    vacio -> <empty>
+
+Terminals, with rules where they appear
+
+COLON                : 5 18
+COMMA                : 9 20 58 68
+CTE_FLOAT            : 53
+CTE_INT              : 52
+CTE_STRING           : 57
+DIVISION             : 43
+DO                   : 60
+ELSE                 : 62
+END                  : 1
+EQUALS               : 30
+FLOAT                : 12
+GREATER              : 34
+ID                   : 1 8 17 18 30 50 64
+IF                   : 61
+INT                  : 11
+LBRACKET             : 17
+LCBRACKET            : 22
+LESS                 : 35
+LPARENTHESES         : 17 45 54 60 61 64
+MAIN                 : 1
+MINUS                : 39 48
+MULTIPLICATION       : 42
+NOT_EQUALS           : 36
+PLUS                 : 38 47
+PRINT                : 54
+PROGRAM              : 1
+RBRACKET             : 17
+RCBRACKET            : 22
+RPARENTHESES         : 17 45 54 60 61 64
+SEMICOLON            : 1 5 17 30 54 60 61 64
+VAR                  : 4
+VOID                 : 17
+WHILE                : 60
+error                : 
+
+Nonterminals, with rules where they appear
+
+ASSIGN               : 25
+BODY                 : 1 17 60 61 62
+CONDITION            : 26
+CTE                  : 51
+CYCLE                : 27
+Comp_logic           : 31
+Declare_func         : 1 15
+Declare_statement    : 22 23
+Declare_var          : 1 17
+EXP                  : 31 32 38 39
+EXPRESION            : 30 45 56 60 61 67
+Else_condition       : 61
+FACTOR               : 41
+FUNCS                : 13
+F_CALL               : 28
+F_expresion          : 64
+ID_CONST             : 46
+List_expresions      : 54 58
+List_fexpresions     : 65 68
+List_ids             : 5 9
+More_expresions      : 55
+More_fexpresions     : 67
+More_func            : 13
+More_ids             : 8
+More_parameters      : 18
+More_variables       : 5
+Mult_div             : 41
+Op_logic             : 32
+Opt_exp              : 55
+PRINTF               : 29
+Parameters           : 17 20
+Programa             : 0
+STATEMENT            : 23
+Sum_res              : 37
+Sum_res_factor       : 46
+TERMINO              : 37 42 43
+Type                 : 5 18
+VARS                 : 2
+Variables            : 4 6
+vacio                : 3 7 10 14 16 19 21 24 33 40 44 49 59 63 66 69
+
+Parsing method: LALR
+
+state 0
+
+    (0) S' -> . Programa
+    (1) Programa -> . PROGRAM ID SEMICOLON Declare_var Declare_func MAIN BODY END
+
+    PROGRAM         shift and go to state 2
+
+    Programa                       shift and go to state 1
+
+state 1
+
+    (0) S' -> Programa .
+
+
+
+state 2
+
+    (1) Programa -> PROGRAM . ID SEMICOLON Declare_var Declare_func MAIN BODY END
+
+    ID              shift and go to state 3
+
+
+state 3
+
+    (1) Programa -> PROGRAM ID . SEMICOLON Declare_var Declare_func MAIN BODY END
+
+    SEMICOLON       shift and go to state 4
+
+
+state 4
+
+    (1) Programa -> PROGRAM ID SEMICOLON . Declare_var Declare_func MAIN BODY END
+    (2) Declare_var -> . VARS
+    (3) Declare_var -> . vacio
+    (4) VARS -> . VAR Variables
+    (70) vacio -> .
+
+    VAR             shift and go to state 8
+    VOID            reduce using rule 70 (vacio -> .)
+    MAIN            reduce using rule 70 (vacio -> .)
+
+    Declare_var                    shift and go to state 5
+    VARS                           shift and go to state 6
+    vacio                          shift and go to state 7
+
+state 5
+
+    (1) Programa -> PROGRAM ID SEMICOLON Declare_var . Declare_func MAIN BODY END
+    (13) Declare_func -> . FUNCS More_func
+    (14) Declare_func -> . vacio
+    (17) FUNCS -> . VOID ID LPARENTHESES Parameters RPARENTHESES LBRACKET Declare_var BODY RBRACKET SEMICOLON
+    (70) vacio -> .
+
+    VOID            shift and go to state 12
+    MAIN            reduce using rule 70 (vacio -> .)
+
+    Declare_func                   shift and go to state 9
+    FUNCS                          shift and go to state 10
+    vacio                          shift and go to state 11
+
+state 6
+
+    (2) Declare_var -> VARS .
+
+    VOID            reduce using rule 2 (Declare_var -> VARS .)
+    MAIN            reduce using rule 2 (Declare_var -> VARS .)
+    LCBRACKET       reduce using rule 2 (Declare_var -> VARS .)
+
+
+state 7
+
+    (3) Declare_var -> vacio .
+
+    VOID            reduce using rule 3 (Declare_var -> vacio .)
+    MAIN            reduce using rule 3 (Declare_var -> vacio .)
+    LCBRACKET       reduce using rule 3 (Declare_var -> vacio .)
+
+
+state 8
+
+    (4) VARS -> VAR . Variables
+    (5) Variables -> . List_ids COLON Type SEMICOLON More_variables
+    (8) List_ids -> . ID More_ids
+
+    ID              shift and go to state 15
+
+    Variables                      shift and go to state 13
+    List_ids                       shift and go to state 14
+
+state 9
+
+    (1) Programa -> PROGRAM ID SEMICOLON Declare_var Declare_func . MAIN BODY END
+
+    MAIN            shift and go to state 16
+
+
+state 10
+
+    (13) Declare_func -> FUNCS . More_func
+    (15) More_func -> . Declare_func
+    (16) More_func -> . vacio
+    (13) Declare_func -> . FUNCS More_func
+    (14) Declare_func -> . vacio
+    (70) vacio -> .
+    (17) FUNCS -> . VOID ID LPARENTHESES Parameters RPARENTHESES LBRACKET Declare_var BODY RBRACKET SEMICOLON
+
+    MAIN            reduce using rule 70 (vacio -> .)
+    VOID            shift and go to state 12
+
+    FUNCS                          shift and go to state 10
+    More_func                      shift and go to state 17
+    Declare_func                   shift and go to state 18
+    vacio                          shift and go to state 19
+
+state 11
+
+    (14) Declare_func -> vacio .
+
+    MAIN            reduce using rule 14 (Declare_func -> vacio .)
+
+
+state 12
+
+    (17) FUNCS -> VOID . ID LPARENTHESES Parameters RPARENTHESES LBRACKET Declare_var BODY RBRACKET SEMICOLON
+
+    ID              shift and go to state 20
+
+
+state 13
+
+    (4) VARS -> VAR Variables .
+
+    VOID            reduce using rule 4 (VARS -> VAR Variables .)
+    MAIN            reduce using rule 4 (VARS -> VAR Variables .)
+    LCBRACKET       reduce using rule 4 (VARS -> VAR Variables .)
+
+
+state 14
+
+    (5) Variables -> List_ids . COLON Type SEMICOLON More_variables
+
+    COLON           shift and go to state 21
+
+
+state 15
+
+    (8) List_ids -> ID . More_ids
+    (9) More_ids -> . COMMA List_ids
+    (10) More_ids -> . vacio
+    (70) vacio -> .
+
+    COMMA           shift and go to state 23
+    COLON           reduce using rule 70 (vacio -> .)
+
+    More_ids                       shift and go to state 22
+    vacio                          shift and go to state 24
+
+state 16
+
+    (1) Programa -> PROGRAM ID SEMICOLON Declare_var Declare_func MAIN . BODY END
+    (22) BODY -> . LCBRACKET Declare_statement RCBRACKET
+
+    LCBRACKET       shift and go to state 26
+
+    BODY                           shift and go to state 25
+
+state 17
+
+    (13) Declare_func -> FUNCS More_func .
+
+    MAIN            reduce using rule 13 (Declare_func -> FUNCS More_func .)
+
+
+state 18
+
+    (15) More_func -> Declare_func .
+
+    MAIN            reduce using rule 15 (More_func -> Declare_func .)
+
+
+state 19
+
+    (16) More_func -> vacio .
+    (14) Declare_func -> vacio .
+
+  ! reduce/reduce conflict for MAIN resolved using rule 14 (Declare_func -> vacio .)
+    MAIN            reduce using rule 14 (Declare_func -> vacio .)
+
+  ! MAIN            [ reduce using rule 16 (More_func -> vacio .) ]
+
+
+state 20
+
+    (17) FUNCS -> VOID ID . LPARENTHESES Parameters RPARENTHESES LBRACKET Declare_var BODY RBRACKET SEMICOLON
+
+    LPARENTHESES    shift and go to state 27
+
+
+state 21
+
+    (5) Variables -> List_ids COLON . Type SEMICOLON More_variables
+    (11) Type -> . INT
+    (12) Type -> . FLOAT
+
+    INT             shift and go to state 29
+    FLOAT           shift and go to state 30
+
+    Type                           shift and go to state 28
+
+state 22
+
+    (8) List_ids -> ID More_ids .
+
+    COLON           reduce using rule 8 (List_ids -> ID More_ids .)
+
+
+state 23
+
+    (9) More_ids -> COMMA . List_ids
+    (8) List_ids -> . ID More_ids
+
+    ID              shift and go to state 15
+
+    List_ids                       shift and go to state 31
+
+state 24
+
+    (10) More_ids -> vacio .
+
+    COLON           reduce using rule 10 (More_ids -> vacio .)
+
+
+state 25
+
+    (1) Programa -> PROGRAM ID SEMICOLON Declare_var Declare_func MAIN BODY . END
+
+    END             shift and go to state 32
+
+
+state 26
+
+    (22) BODY -> LCBRACKET . Declare_statement RCBRACKET
+    (23) Declare_statement -> . STATEMENT Declare_statement
+    (24) Declare_statement -> . vacio
+    (25) STATEMENT -> . ASSIGN
+    (26) STATEMENT -> . CONDITION
+    (27) STATEMENT -> . CYCLE
+    (28) STATEMENT -> . F_CALL
+    (29) STATEMENT -> . PRINTF
+    (70) vacio -> .
+    (30) ASSIGN -> . ID EQUALS EXPRESION SEMICOLON
+    (61) CONDITION -> . IF LPARENTHESES EXPRESION RPARENTHESES BODY Else_condition SEMICOLON
+    (60) CYCLE -> . DO BODY WHILE LPARENTHESES EXPRESION RPARENTHESES SEMICOLON
+    (64) F_CALL -> . ID LPARENTHESES F_expresion RPARENTHESES SEMICOLON
+    (54) PRINTF -> . PRINT LPARENTHESES List_expresions RPARENTHESES SEMICOLON
+
+    RCBRACKET       reduce using rule 70 (vacio -> .)
+    ID              shift and go to state 41
+    IF              shift and go to state 42
+    DO              shift and go to state 43
+    PRINT           shift and go to state 44
+
+    Declare_statement              shift and go to state 33
+    STATEMENT                      shift and go to state 34
+    vacio                          shift and go to state 35
+    ASSIGN                         shift and go to state 36
+    CONDITION                      shift and go to state 37
+    CYCLE                          shift and go to state 38
+    F_CALL                         shift and go to state 39
+    PRINTF                         shift and go to state 40
+
+state 27
+
+    (17) FUNCS -> VOID ID LPARENTHESES . Parameters RPARENTHESES LBRACKET Declare_var BODY RBRACKET SEMICOLON
+    (18) Parameters -> . ID COLON Type More_parameters
+    (19) Parameters -> . vacio
+    (70) vacio -> .
+
+    ID              shift and go to state 45
+    RPARENTHESES    reduce using rule 70 (vacio -> .)
+
+    Parameters                     shift and go to state 46
+    vacio                          shift and go to state 47
+
+state 28
+
+    (5) Variables -> List_ids COLON Type . SEMICOLON More_variables
+
+    SEMICOLON       shift and go to state 48
+
+
+state 29
+
+    (11) Type -> INT .
+
+    SEMICOLON       reduce using rule 11 (Type -> INT .)
+    COMMA           reduce using rule 11 (Type -> INT .)
+    RPARENTHESES    reduce using rule 11 (Type -> INT .)
+
+
+state 30
+
+    (12) Type -> FLOAT .
+
+    SEMICOLON       reduce using rule 12 (Type -> FLOAT .)
+    COMMA           reduce using rule 12 (Type -> FLOAT .)
+    RPARENTHESES    reduce using rule 12 (Type -> FLOAT .)
+
+
+state 31
+
+    (9) More_ids -> COMMA List_ids .
+
+    COLON           reduce using rule 9 (More_ids -> COMMA List_ids .)
+
+
+state 32
+
+    (1) Programa -> PROGRAM ID SEMICOLON Declare_var Declare_func MAIN BODY END .
+
+    $end            reduce using rule 1 (Programa -> PROGRAM ID SEMICOLON Declare_var Declare_func MAIN BODY END .)
+
+
+state 33
+
+    (22) BODY -> LCBRACKET Declare_statement . RCBRACKET
+
+    RCBRACKET       shift and go to state 49
+
+
+state 34
+
+    (23) Declare_statement -> STATEMENT . Declare_statement
+    (23) Declare_statement -> . STATEMENT Declare_statement
+    (24) Declare_statement -> . vacio
+    (25) STATEMENT -> . ASSIGN
+    (26) STATEMENT -> . CONDITION
+    (27) STATEMENT -> . CYCLE
+    (28) STATEMENT -> . F_CALL
+    (29) STATEMENT -> . PRINTF
+    (70) vacio -> .
+    (30) ASSIGN -> . ID EQUALS EXPRESION SEMICOLON
+    (61) CONDITION -> . IF LPARENTHESES EXPRESION RPARENTHESES BODY Else_condition SEMICOLON
+    (60) CYCLE -> . DO BODY WHILE LPARENTHESES EXPRESION RPARENTHESES SEMICOLON
+    (64) F_CALL -> . ID LPARENTHESES F_expresion RPARENTHESES SEMICOLON
+    (54) PRINTF -> . PRINT LPARENTHESES List_expresions RPARENTHESES SEMICOLON
+
+    RCBRACKET       reduce using rule 70 (vacio -> .)
+    ID              shift and go to state 41
+    IF              shift and go to state 42
+    DO              shift and go to state 43
+    PRINT           shift and go to state 44
+
+    STATEMENT                      shift and go to state 34
+    Declare_statement              shift and go to state 50
+    vacio                          shift and go to state 35
+    ASSIGN                         shift and go to state 36
+    CONDITION                      shift and go to state 37
+    CYCLE                          shift and go to state 38
+    F_CALL                         shift and go to state 39
+    PRINTF                         shift and go to state 40
+
+state 35
+
+    (24) Declare_statement -> vacio .
+
+    RCBRACKET       reduce using rule 24 (Declare_statement -> vacio .)
+
+
+state 36
+
+    (25) STATEMENT -> ASSIGN .
+
+    ID              reduce using rule 25 (STATEMENT -> ASSIGN .)
+    IF              reduce using rule 25 (STATEMENT -> ASSIGN .)
+    DO              reduce using rule 25 (STATEMENT -> ASSIGN .)
+    PRINT           reduce using rule 25 (STATEMENT -> ASSIGN .)
+    RCBRACKET       reduce using rule 25 (STATEMENT -> ASSIGN .)
+
+
+state 37
+
+    (26) STATEMENT -> CONDITION .
+
+    ID              reduce using rule 26 (STATEMENT -> CONDITION .)
+    IF              reduce using rule 26 (STATEMENT -> CONDITION .)
+    DO              reduce using rule 26 (STATEMENT -> CONDITION .)
+    PRINT           reduce using rule 26 (STATEMENT -> CONDITION .)
+    RCBRACKET       reduce using rule 26 (STATEMENT -> CONDITION .)
+
+
+state 38
+
+    (27) STATEMENT -> CYCLE .
+
+    ID              reduce using rule 27 (STATEMENT -> CYCLE .)
+    IF              reduce using rule 27 (STATEMENT -> CYCLE .)
+    DO              reduce using rule 27 (STATEMENT -> CYCLE .)
+    PRINT           reduce using rule 27 (STATEMENT -> CYCLE .)
+    RCBRACKET       reduce using rule 27 (STATEMENT -> CYCLE .)
+
+
+state 39
+
+    (28) STATEMENT -> F_CALL .
+
+    ID              reduce using rule 28 (STATEMENT -> F_CALL .)
+    IF              reduce using rule 28 (STATEMENT -> F_CALL .)
+    DO              reduce using rule 28 (STATEMENT -> F_CALL .)
+    PRINT           reduce using rule 28 (STATEMENT -> F_CALL .)
+    RCBRACKET       reduce using rule 28 (STATEMENT -> F_CALL .)
+
+
+state 40
+
+    (29) STATEMENT -> PRINTF .
+
+    ID              reduce using rule 29 (STATEMENT -> PRINTF .)
+    IF              reduce using rule 29 (STATEMENT -> PRINTF .)
+    DO              reduce using rule 29 (STATEMENT -> PRINTF .)
+    PRINT           reduce using rule 29 (STATEMENT -> PRINTF .)
+    RCBRACKET       reduce using rule 29 (STATEMENT -> PRINTF .)
+
+
+state 41
+
+    (30) ASSIGN -> ID . EQUALS EXPRESION SEMICOLON
+    (64) F_CALL -> ID . LPARENTHESES F_expresion RPARENTHESES SEMICOLON
+
+    EQUALS          shift and go to state 51
+    LPARENTHESES    shift and go to state 52
+
+
+state 42
+
+    (61) CONDITION -> IF . LPARENTHESES EXPRESION RPARENTHESES BODY Else_condition SEMICOLON
+
+    LPARENTHESES    shift and go to state 53
+
+
+state 43
+
+    (60) CYCLE -> DO . BODY WHILE LPARENTHESES EXPRESION RPARENTHESES SEMICOLON
+    (22) BODY -> . LCBRACKET Declare_statement RCBRACKET
+
+    LCBRACKET       shift and go to state 26
+
+    BODY                           shift and go to state 54
+
+state 44
+
+    (54) PRINTF -> PRINT . LPARENTHESES List_expresions RPARENTHESES SEMICOLON
+
+    LPARENTHESES    shift and go to state 55
+
+
+state 45
+
+    (18) Parameters -> ID . COLON Type More_parameters
+
+    COLON           shift and go to state 56
+
+
+state 46
+
+    (17) FUNCS -> VOID ID LPARENTHESES Parameters . RPARENTHESES LBRACKET Declare_var BODY RBRACKET SEMICOLON
+
+    RPARENTHESES    shift and go to state 57
+
+
+state 47
+
+    (19) Parameters -> vacio .
+
+    RPARENTHESES    reduce using rule 19 (Parameters -> vacio .)
+
+
+state 48
+
+    (5) Variables -> List_ids COLON Type SEMICOLON . More_variables
+    (6) More_variables -> . Variables
+    (7) More_variables -> . vacio
+    (5) Variables -> . List_ids COLON Type SEMICOLON More_variables
+    (70) vacio -> .
+    (8) List_ids -> . ID More_ids
+
+    VOID            reduce using rule 70 (vacio -> .)
+    MAIN            reduce using rule 70 (vacio -> .)
+    LCBRACKET       reduce using rule 70 (vacio -> .)
+    ID              shift and go to state 15
+
+    List_ids                       shift and go to state 14
+    More_variables                 shift and go to state 58
+    Variables                      shift and go to state 59
+    vacio                          shift and go to state 60
+
+state 49
+
+    (22) BODY -> LCBRACKET Declare_statement RCBRACKET .
+
+    END             reduce using rule 22 (BODY -> LCBRACKET Declare_statement RCBRACKET .)
+    WHILE           reduce using rule 22 (BODY -> LCBRACKET Declare_statement RCBRACKET .)
+    ELSE            reduce using rule 22 (BODY -> LCBRACKET Declare_statement RCBRACKET .)
+    SEMICOLON       reduce using rule 22 (BODY -> LCBRACKET Declare_statement RCBRACKET .)
+    RBRACKET        reduce using rule 22 (BODY -> LCBRACKET Declare_statement RCBRACKET .)
+
+
+state 50
+
+    (23) Declare_statement -> STATEMENT Declare_statement .
+
+    RCBRACKET       reduce using rule 23 (Declare_statement -> STATEMENT Declare_statement .)
+
+
+state 51
+
+    (30) ASSIGN -> ID EQUALS . EXPRESION SEMICOLON
+    (31) EXPRESION -> . EXP Comp_logic
+    (37) EXP -> . TERMINO Sum_res
+    (41) TERMINO -> . FACTOR Mult_div
+    (45) FACTOR -> . LPARENTHESES EXPRESION RPARENTHESES
+    (46) FACTOR -> . Sum_res_factor ID_CONST
+    (47) Sum_res_factor -> . PLUS
+    (48) Sum_res_factor -> . MINUS
+    (49) Sum_res_factor -> . vacio
+    (70) vacio -> .
+
+    LPARENTHESES    shift and go to state 65
+    PLUS            shift and go to state 67
+    MINUS           shift and go to state 68
+    ID              reduce using rule 70 (vacio -> .)
+    CTE_INT         reduce using rule 70 (vacio -> .)
+    CTE_FLOAT       reduce using rule 70 (vacio -> .)
+
+    EXPRESION                      shift and go to state 61
+    EXP                            shift and go to state 62
+    TERMINO                        shift and go to state 63
+    FACTOR                         shift and go to state 64
+    Sum_res_factor                 shift and go to state 66
+    vacio                          shift and go to state 69
+
+state 52
+
+    (64) F_CALL -> ID LPARENTHESES . F_expresion RPARENTHESES SEMICOLON
+    (65) F_expresion -> . List_fexpresions
+    (66) F_expresion -> . vacio
+    (67) List_fexpresions -> . EXPRESION More_fexpresions
+    (70) vacio -> .
+    (31) EXPRESION -> . EXP Comp_logic
+    (37) EXP -> . TERMINO Sum_res
+    (41) TERMINO -> . FACTOR Mult_div
+    (45) FACTOR -> . LPARENTHESES EXPRESION RPARENTHESES
+    (46) FACTOR -> . Sum_res_factor ID_CONST
+    (47) Sum_res_factor -> . PLUS
+    (48) Sum_res_factor -> . MINUS
+    (49) Sum_res_factor -> . vacio
+
+    RPARENTHESES    reduce using rule 70 (vacio -> .)
+    ID              reduce using rule 70 (vacio -> .)
+    CTE_INT         reduce using rule 70 (vacio -> .)
+    CTE_FLOAT       reduce using rule 70 (vacio -> .)
+    LPARENTHESES    shift and go to state 65
+    PLUS            shift and go to state 67
+    MINUS           shift and go to state 68
+
+    F_expresion                    shift and go to state 70
+    List_fexpresions               shift and go to state 71
+    vacio                          shift and go to state 72
+    EXPRESION                      shift and go to state 73
+    EXP                            shift and go to state 62
+    TERMINO                        shift and go to state 63
+    FACTOR                         shift and go to state 64
+    Sum_res_factor                 shift and go to state 66
+
+state 53
+
+    (61) CONDITION -> IF LPARENTHESES . EXPRESION RPARENTHESES BODY Else_condition SEMICOLON
+    (31) EXPRESION -> . EXP Comp_logic
+    (37) EXP -> . TERMINO Sum_res
+    (41) TERMINO -> . FACTOR Mult_div
+    (45) FACTOR -> . LPARENTHESES EXPRESION RPARENTHESES
+    (46) FACTOR -> . Sum_res_factor ID_CONST
+    (47) Sum_res_factor -> . PLUS
+    (48) Sum_res_factor -> . MINUS
+    (49) Sum_res_factor -> . vacio
+    (70) vacio -> .
+
+    LPARENTHESES    shift and go to state 65
+    PLUS            shift and go to state 67
+    MINUS           shift and go to state 68
+    ID              reduce using rule 70 (vacio -> .)
+    CTE_INT         reduce using rule 70 (vacio -> .)
+    CTE_FLOAT       reduce using rule 70 (vacio -> .)
+
+    EXPRESION                      shift and go to state 74
+    EXP                            shift and go to state 62
+    TERMINO                        shift and go to state 63
+    FACTOR                         shift and go to state 64
+    Sum_res_factor                 shift and go to state 66
+    vacio                          shift and go to state 69
+
+state 54
+
+    (60) CYCLE -> DO BODY . WHILE LPARENTHESES EXPRESION RPARENTHESES SEMICOLON
+
+    WHILE           shift and go to state 75
+
+
+state 55
+
+    (54) PRINTF -> PRINT LPARENTHESES . List_expresions RPARENTHESES SEMICOLON
+    (55) List_expresions -> . Opt_exp More_expresions
+    (56) Opt_exp -> . EXPRESION
+    (57) Opt_exp -> . CTE_STRING
+    (31) EXPRESION -> . EXP Comp_logic
+    (37) EXP -> . TERMINO Sum_res
+    (41) TERMINO -> . FACTOR Mult_div
+    (45) FACTOR -> . LPARENTHESES EXPRESION RPARENTHESES
+    (46) FACTOR -> . Sum_res_factor ID_CONST
+    (47) Sum_res_factor -> . PLUS
+    (48) Sum_res_factor -> . MINUS
+    (49) Sum_res_factor -> . vacio
+    (70) vacio -> .
+
+    CTE_STRING      shift and go to state 79
+    LPARENTHESES    shift and go to state 65
+    PLUS            shift and go to state 67
+    MINUS           shift and go to state 68
+    ID              reduce using rule 70 (vacio -> .)
+    CTE_INT         reduce using rule 70 (vacio -> .)
+    CTE_FLOAT       reduce using rule 70 (vacio -> .)
+
+    List_expresions                shift and go to state 76
+    Opt_exp                        shift and go to state 77
+    EXPRESION                      shift and go to state 78
+    EXP                            shift and go to state 62
+    TERMINO                        shift and go to state 63
+    FACTOR                         shift and go to state 64
+    Sum_res_factor                 shift and go to state 66
+    vacio                          shift and go to state 69
+
+state 56
+
+    (18) Parameters -> ID COLON . Type More_parameters
+    (11) Type -> . INT
+    (12) Type -> . FLOAT
+
+    INT             shift and go to state 29
+    FLOAT           shift and go to state 30
+
+    Type                           shift and go to state 80
+
+state 57
+
+    (17) FUNCS -> VOID ID LPARENTHESES Parameters RPARENTHESES . LBRACKET Declare_var BODY RBRACKET SEMICOLON
+
+    LBRACKET        shift and go to state 81
+
+
+state 58
+
+    (5) Variables -> List_ids COLON Type SEMICOLON More_variables .
+
+    VOID            reduce using rule 5 (Variables -> List_ids COLON Type SEMICOLON More_variables .)
+    MAIN            reduce using rule 5 (Variables -> List_ids COLON Type SEMICOLON More_variables .)
+    LCBRACKET       reduce using rule 5 (Variables -> List_ids COLON Type SEMICOLON More_variables .)
+
+
+state 59
+
+    (6) More_variables -> Variables .
+
+    VOID            reduce using rule 6 (More_variables -> Variables .)
+    MAIN            reduce using rule 6 (More_variables -> Variables .)
+    LCBRACKET       reduce using rule 6 (More_variables -> Variables .)
+
+
+state 60
+
+    (7) More_variables -> vacio .
+
+    VOID            reduce using rule 7 (More_variables -> vacio .)
+    MAIN            reduce using rule 7 (More_variables -> vacio .)
+    LCBRACKET       reduce using rule 7 (More_variables -> vacio .)
+
+
+state 61
+
+    (30) ASSIGN -> ID EQUALS EXPRESION . SEMICOLON
+
+    SEMICOLON       shift and go to state 82
+
+
+state 62
+
+    (31) EXPRESION -> EXP . Comp_logic
+    (32) Comp_logic -> . Op_logic EXP
+    (33) Comp_logic -> . vacio
+    (34) Op_logic -> . GREATER
+    (35) Op_logic -> . LESS
+    (36) Op_logic -> . NOT_EQUALS
+    (70) vacio -> .
+
+    GREATER         shift and go to state 86
+    LESS            shift and go to state 87
+    NOT_EQUALS      shift and go to state 88
+    SEMICOLON       reduce using rule 70 (vacio -> .)
+    COMMA           reduce using rule 70 (vacio -> .)
+    RPARENTHESES    reduce using rule 70 (vacio -> .)
+
+    Comp_logic                     shift and go to state 83
+    Op_logic                       shift and go to state 84
+    vacio                          shift and go to state 85
+
+state 63
+
+    (37) EXP -> TERMINO . Sum_res
+    (38) Sum_res -> . PLUS EXP
+    (39) Sum_res -> . MINUS EXP
+    (40) Sum_res -> . vacio
+    (70) vacio -> .
+
+    PLUS            shift and go to state 90
+    MINUS           shift and go to state 91
+    GREATER         reduce using rule 70 (vacio -> .)
+    LESS            reduce using rule 70 (vacio -> .)
+    NOT_EQUALS      reduce using rule 70 (vacio -> .)
+    SEMICOLON       reduce using rule 70 (vacio -> .)
+    COMMA           reduce using rule 70 (vacio -> .)
+    RPARENTHESES    reduce using rule 70 (vacio -> .)
+
+    Sum_res                        shift and go to state 89
+    vacio                          shift and go to state 92
+
+state 64
+
+    (41) TERMINO -> FACTOR . Mult_div
+    (42) Mult_div -> . MULTIPLICATION TERMINO
+    (43) Mult_div -> . DIVISION TERMINO
+    (44) Mult_div -> . vacio
+    (70) vacio -> .
+
+    MULTIPLICATION  shift and go to state 94
+    DIVISION        shift and go to state 95
+    PLUS            reduce using rule 70 (vacio -> .)
+    MINUS           reduce using rule 70 (vacio -> .)
+    GREATER         reduce using rule 70 (vacio -> .)
+    LESS            reduce using rule 70 (vacio -> .)
+    NOT_EQUALS      reduce using rule 70 (vacio -> .)
+    SEMICOLON       reduce using rule 70 (vacio -> .)
+    COMMA           reduce using rule 70 (vacio -> .)
+    RPARENTHESES    reduce using rule 70 (vacio -> .)
+
+    Mult_div                       shift and go to state 93
+    vacio                          shift and go to state 96
+
+state 65
+
+    (45) FACTOR -> LPARENTHESES . EXPRESION RPARENTHESES
+    (31) EXPRESION -> . EXP Comp_logic
+    (37) EXP -> . TERMINO Sum_res
+    (41) TERMINO -> . FACTOR Mult_div
+    (45) FACTOR -> . LPARENTHESES EXPRESION RPARENTHESES
+    (46) FACTOR -> . Sum_res_factor ID_CONST
+    (47) Sum_res_factor -> . PLUS
+    (48) Sum_res_factor -> . MINUS
+    (49) Sum_res_factor -> . vacio
+    (70) vacio -> .
+
+    LPARENTHESES    shift and go to state 65
+    PLUS            shift and go to state 67
+    MINUS           shift and go to state 68
+    ID              reduce using rule 70 (vacio -> .)
+    CTE_INT         reduce using rule 70 (vacio -> .)
+    CTE_FLOAT       reduce using rule 70 (vacio -> .)
+
+    EXPRESION                      shift and go to state 97
+    EXP                            shift and go to state 62
+    TERMINO                        shift and go to state 63
+    FACTOR                         shift and go to state 64
+    Sum_res_factor                 shift and go to state 66
+    vacio                          shift and go to state 69
+
+state 66
+
+    (46) FACTOR -> Sum_res_factor . ID_CONST
+    (50) ID_CONST -> . ID
+    (51) ID_CONST -> . CTE
+    (52) CTE -> . CTE_INT
+    (53) CTE -> . CTE_FLOAT
+
+    ID              shift and go to state 99
+    CTE_INT         shift and go to state 101
+    CTE_FLOAT       shift and go to state 102
+
+    ID_CONST                       shift and go to state 98
+    CTE                            shift and go to state 100
+
+state 67
+
+    (47) Sum_res_factor -> PLUS .
+
+    ID              reduce using rule 47 (Sum_res_factor -> PLUS .)
+    CTE_INT         reduce using rule 47 (Sum_res_factor -> PLUS .)
+    CTE_FLOAT       reduce using rule 47 (Sum_res_factor -> PLUS .)
+
+
+state 68
+
+    (48) Sum_res_factor -> MINUS .
+
+    ID              reduce using rule 48 (Sum_res_factor -> MINUS .)
+    CTE_INT         reduce using rule 48 (Sum_res_factor -> MINUS .)
+    CTE_FLOAT       reduce using rule 48 (Sum_res_factor -> MINUS .)
+
+
+state 69
+
+    (49) Sum_res_factor -> vacio .
+
+    ID              reduce using rule 49 (Sum_res_factor -> vacio .)
+    CTE_INT         reduce using rule 49 (Sum_res_factor -> vacio .)
+    CTE_FLOAT       reduce using rule 49 (Sum_res_factor -> vacio .)
+
+
+state 70
+
+    (64) F_CALL -> ID LPARENTHESES F_expresion . RPARENTHESES SEMICOLON
+
+    RPARENTHESES    shift and go to state 103
+
+
+state 71
+
+    (65) F_expresion -> List_fexpresions .
+
+    RPARENTHESES    reduce using rule 65 (F_expresion -> List_fexpresions .)
+
+
+state 72
+
+    (66) F_expresion -> vacio .
+    (49) Sum_res_factor -> vacio .
+
+    RPARENTHESES    reduce using rule 66 (F_expresion -> vacio .)
+    ID              reduce using rule 49 (Sum_res_factor -> vacio .)
+    CTE_INT         reduce using rule 49 (Sum_res_factor -> vacio .)
+    CTE_FLOAT       reduce using rule 49 (Sum_res_factor -> vacio .)
+
+
+state 73
+
+    (67) List_fexpresions -> EXPRESION . More_fexpresions
+    (68) More_fexpresions -> . COMMA List_fexpresions
+    (69) More_fexpresions -> . vacio
+    (70) vacio -> .
+
+    COMMA           shift and go to state 105
+    RPARENTHESES    reduce using rule 70 (vacio -> .)
+
+    More_fexpresions               shift and go to state 104
+    vacio                          shift and go to state 106
+
+state 74
+
+    (61) CONDITION -> IF LPARENTHESES EXPRESION . RPARENTHESES BODY Else_condition SEMICOLON
+
+    RPARENTHESES    shift and go to state 107
+
+
+state 75
+
+    (60) CYCLE -> DO BODY WHILE . LPARENTHESES EXPRESION RPARENTHESES SEMICOLON
+
+    LPARENTHESES    shift and go to state 108
+
+
+state 76
+
+    (54) PRINTF -> PRINT LPARENTHESES List_expresions . RPARENTHESES SEMICOLON
+
+    RPARENTHESES    shift and go to state 109
+
+
+state 77
+
+    (55) List_expresions -> Opt_exp . More_expresions
+    (58) More_expresions -> . COMMA List_expresions
+    (59) More_expresions -> . vacio
+    (70) vacio -> .
+
+    COMMA           shift and go to state 111
+    RPARENTHESES    reduce using rule 70 (vacio -> .)
+
+    More_expresions                shift and go to state 110
+    vacio                          shift and go to state 112
+
+state 78
+
+    (56) Opt_exp -> EXPRESION .
+
+    COMMA           reduce using rule 56 (Opt_exp -> EXPRESION .)
+    RPARENTHESES    reduce using rule 56 (Opt_exp -> EXPRESION .)
+
+
+state 79
+
+    (57) Opt_exp -> CTE_STRING .
+
+    COMMA           reduce using rule 57 (Opt_exp -> CTE_STRING .)
+    RPARENTHESES    reduce using rule 57 (Opt_exp -> CTE_STRING .)
+
+
+state 80
+
+    (18) Parameters -> ID COLON Type . More_parameters
+    (20) More_parameters -> . COMMA Parameters
+    (21) More_parameters -> . vacio
+    (70) vacio -> .
+
+    COMMA           shift and go to state 114
+    RPARENTHESES    reduce using rule 70 (vacio -> .)
+
+    More_parameters                shift and go to state 113
+    vacio                          shift and go to state 115
+
+state 81
+
+    (17) FUNCS -> VOID ID LPARENTHESES Parameters RPARENTHESES LBRACKET . Declare_var BODY RBRACKET SEMICOLON
+    (2) Declare_var -> . VARS
+    (3) Declare_var -> . vacio
+    (4) VARS -> . VAR Variables
+    (70) vacio -> .
+
+    VAR             shift and go to state 8
+    LCBRACKET       reduce using rule 70 (vacio -> .)
+
+    Declare_var                    shift and go to state 116
+    VARS                           shift and go to state 6
+    vacio                          shift and go to state 7
+
+state 82
+
+    (30) ASSIGN -> ID EQUALS EXPRESION SEMICOLON .
+
+    ID              reduce using rule 30 (ASSIGN -> ID EQUALS EXPRESION SEMICOLON .)
+    IF              reduce using rule 30 (ASSIGN -> ID EQUALS EXPRESION SEMICOLON .)
+    DO              reduce using rule 30 (ASSIGN -> ID EQUALS EXPRESION SEMICOLON .)
+    PRINT           reduce using rule 30 (ASSIGN -> ID EQUALS EXPRESION SEMICOLON .)
+    RCBRACKET       reduce using rule 30 (ASSIGN -> ID EQUALS EXPRESION SEMICOLON .)
+
+
+state 83
+
+    (31) EXPRESION -> EXP Comp_logic .
+
+    SEMICOLON       reduce using rule 31 (EXPRESION -> EXP Comp_logic .)
+    COMMA           reduce using rule 31 (EXPRESION -> EXP Comp_logic .)
+    RPARENTHESES    reduce using rule 31 (EXPRESION -> EXP Comp_logic .)
+
+
+state 84
+
+    (32) Comp_logic -> Op_logic . EXP
+    (37) EXP -> . TERMINO Sum_res
+    (41) TERMINO -> . FACTOR Mult_div
+    (45) FACTOR -> . LPARENTHESES EXPRESION RPARENTHESES
+    (46) FACTOR -> . Sum_res_factor ID_CONST
+    (47) Sum_res_factor -> . PLUS
+    (48) Sum_res_factor -> . MINUS
+    (49) Sum_res_factor -> . vacio
+    (70) vacio -> .
+
+    LPARENTHESES    shift and go to state 65
+    PLUS            shift and go to state 67
+    MINUS           shift and go to state 68
+    ID              reduce using rule 70 (vacio -> .)
+    CTE_INT         reduce using rule 70 (vacio -> .)
+    CTE_FLOAT       reduce using rule 70 (vacio -> .)
+
+    EXP                            shift and go to state 117
+    TERMINO                        shift and go to state 63
+    FACTOR                         shift and go to state 64
+    Sum_res_factor                 shift and go to state 66
+    vacio                          shift and go to state 69
+
+state 85
+
+    (33) Comp_logic -> vacio .
+
+    SEMICOLON       reduce using rule 33 (Comp_logic -> vacio .)
+    COMMA           reduce using rule 33 (Comp_logic -> vacio .)
+    RPARENTHESES    reduce using rule 33 (Comp_logic -> vacio .)
+
+
+state 86
+
+    (34) Op_logic -> GREATER .
+
+    LPARENTHESES    reduce using rule 34 (Op_logic -> GREATER .)
+    PLUS            reduce using rule 34 (Op_logic -> GREATER .)
+    MINUS           reduce using rule 34 (Op_logic -> GREATER .)
+    ID              reduce using rule 34 (Op_logic -> GREATER .)
+    CTE_INT         reduce using rule 34 (Op_logic -> GREATER .)
+    CTE_FLOAT       reduce using rule 34 (Op_logic -> GREATER .)
+
+
+state 87
+
+    (35) Op_logic -> LESS .
+
+    LPARENTHESES    reduce using rule 35 (Op_logic -> LESS .)
+    PLUS            reduce using rule 35 (Op_logic -> LESS .)
+    MINUS           reduce using rule 35 (Op_logic -> LESS .)
+    ID              reduce using rule 35 (Op_logic -> LESS .)
+    CTE_INT         reduce using rule 35 (Op_logic -> LESS .)
+    CTE_FLOAT       reduce using rule 35 (Op_logic -> LESS .)
+
+
+state 88
+
+    (36) Op_logic -> NOT_EQUALS .
+
+    LPARENTHESES    reduce using rule 36 (Op_logic -> NOT_EQUALS .)
+    PLUS            reduce using rule 36 (Op_logic -> NOT_EQUALS .)
+    MINUS           reduce using rule 36 (Op_logic -> NOT_EQUALS .)
+    ID              reduce using rule 36 (Op_logic -> NOT_EQUALS .)
+    CTE_INT         reduce using rule 36 (Op_logic -> NOT_EQUALS .)
+    CTE_FLOAT       reduce using rule 36 (Op_logic -> NOT_EQUALS .)
+
+
+state 89
+
+    (37) EXP -> TERMINO Sum_res .
+
+    GREATER         reduce using rule 37 (EXP -> TERMINO Sum_res .)
+    LESS            reduce using rule 37 (EXP -> TERMINO Sum_res .)
+    NOT_EQUALS      reduce using rule 37 (EXP -> TERMINO Sum_res .)
+    SEMICOLON       reduce using rule 37 (EXP -> TERMINO Sum_res .)
+    COMMA           reduce using rule 37 (EXP -> TERMINO Sum_res .)
+    RPARENTHESES    reduce using rule 37 (EXP -> TERMINO Sum_res .)
+
+
+state 90
+
+    (38) Sum_res -> PLUS . EXP
+    (37) EXP -> . TERMINO Sum_res
+    (41) TERMINO -> . FACTOR Mult_div
+    (45) FACTOR -> . LPARENTHESES EXPRESION RPARENTHESES
+    (46) FACTOR -> . Sum_res_factor ID_CONST
+    (47) Sum_res_factor -> . PLUS
+    (48) Sum_res_factor -> . MINUS
+    (49) Sum_res_factor -> . vacio
+    (70) vacio -> .
+
+    LPARENTHESES    shift and go to state 65
+    PLUS            shift and go to state 67
+    MINUS           shift and go to state 68
+    ID              reduce using rule 70 (vacio -> .)
+    CTE_INT         reduce using rule 70 (vacio -> .)
+    CTE_FLOAT       reduce using rule 70 (vacio -> .)
+
+    EXP                            shift and go to state 118
+    TERMINO                        shift and go to state 63
+    FACTOR                         shift and go to state 64
+    Sum_res_factor                 shift and go to state 66
+    vacio                          shift and go to state 69
+
+state 91
+
+    (39) Sum_res -> MINUS . EXP
+    (37) EXP -> . TERMINO Sum_res
+    (41) TERMINO -> . FACTOR Mult_div
+    (45) FACTOR -> . LPARENTHESES EXPRESION RPARENTHESES
+    (46) FACTOR -> . Sum_res_factor ID_CONST
+    (47) Sum_res_factor -> . PLUS
+    (48) Sum_res_factor -> . MINUS
+    (49) Sum_res_factor -> . vacio
+    (70) vacio -> .
+
+    LPARENTHESES    shift and go to state 65
+    PLUS            shift and go to state 67
+    MINUS           shift and go to state 68
+    ID              reduce using rule 70 (vacio -> .)
+    CTE_INT         reduce using rule 70 (vacio -> .)
+    CTE_FLOAT       reduce using rule 70 (vacio -> .)
+
+    EXP                            shift and go to state 119
+    TERMINO                        shift and go to state 63
+    FACTOR                         shift and go to state 64
+    Sum_res_factor                 shift and go to state 66
+    vacio                          shift and go to state 69
+
+state 92
+
+    (40) Sum_res -> vacio .
+
+    GREATER         reduce using rule 40 (Sum_res -> vacio .)
+    LESS            reduce using rule 40 (Sum_res -> vacio .)
+    NOT_EQUALS      reduce using rule 40 (Sum_res -> vacio .)
+    SEMICOLON       reduce using rule 40 (Sum_res -> vacio .)
+    COMMA           reduce using rule 40 (Sum_res -> vacio .)
+    RPARENTHESES    reduce using rule 40 (Sum_res -> vacio .)
+
+
+state 93
+
+    (41) TERMINO -> FACTOR Mult_div .
+
+    PLUS            reduce using rule 41 (TERMINO -> FACTOR Mult_div .)
+    MINUS           reduce using rule 41 (TERMINO -> FACTOR Mult_div .)
+    GREATER         reduce using rule 41 (TERMINO -> FACTOR Mult_div .)
+    LESS            reduce using rule 41 (TERMINO -> FACTOR Mult_div .)
+    NOT_EQUALS      reduce using rule 41 (TERMINO -> FACTOR Mult_div .)
+    SEMICOLON       reduce using rule 41 (TERMINO -> FACTOR Mult_div .)
+    COMMA           reduce using rule 41 (TERMINO -> FACTOR Mult_div .)
+    RPARENTHESES    reduce using rule 41 (TERMINO -> FACTOR Mult_div .)
+
+
+state 94
+
+    (42) Mult_div -> MULTIPLICATION . TERMINO
+    (41) TERMINO -> . FACTOR Mult_div
+    (45) FACTOR -> . LPARENTHESES EXPRESION RPARENTHESES
+    (46) FACTOR -> . Sum_res_factor ID_CONST
+    (47) Sum_res_factor -> . PLUS
+    (48) Sum_res_factor -> . MINUS
+    (49) Sum_res_factor -> . vacio
+    (70) vacio -> .
+
+    LPARENTHESES    shift and go to state 65
+    PLUS            shift and go to state 67
+    MINUS           shift and go to state 68
+    ID              reduce using rule 70 (vacio -> .)
+    CTE_INT         reduce using rule 70 (vacio -> .)
+    CTE_FLOAT       reduce using rule 70 (vacio -> .)
+
+    TERMINO                        shift and go to state 120
+    FACTOR                         shift and go to state 64
+    Sum_res_factor                 shift and go to state 66
+    vacio                          shift and go to state 69
+
+state 95
+
+    (43) Mult_div -> DIVISION . TERMINO
+    (41) TERMINO -> . FACTOR Mult_div
+    (45) FACTOR -> . LPARENTHESES EXPRESION RPARENTHESES
+    (46) FACTOR -> . Sum_res_factor ID_CONST
+    (47) Sum_res_factor -> . PLUS
+    (48) Sum_res_factor -> . MINUS
+    (49) Sum_res_factor -> . vacio
+    (70) vacio -> .
+
+    LPARENTHESES    shift and go to state 65
+    PLUS            shift and go to state 67
+    MINUS           shift and go to state 68
+    ID              reduce using rule 70 (vacio -> .)
+    CTE_INT         reduce using rule 70 (vacio -> .)
+    CTE_FLOAT       reduce using rule 70 (vacio -> .)
+
+    TERMINO                        shift and go to state 121
+    FACTOR                         shift and go to state 64
+    Sum_res_factor                 shift and go to state 66
+    vacio                          shift and go to state 69
+
+state 96
+
+    (44) Mult_div -> vacio .
+
+    PLUS            reduce using rule 44 (Mult_div -> vacio .)
+    MINUS           reduce using rule 44 (Mult_div -> vacio .)
+    GREATER         reduce using rule 44 (Mult_div -> vacio .)
+    LESS            reduce using rule 44 (Mult_div -> vacio .)
+    NOT_EQUALS      reduce using rule 44 (Mult_div -> vacio .)
+    SEMICOLON       reduce using rule 44 (Mult_div -> vacio .)
+    COMMA           reduce using rule 44 (Mult_div -> vacio .)
+    RPARENTHESES    reduce using rule 44 (Mult_div -> vacio .)
+
+
+state 97
+
+    (45) FACTOR -> LPARENTHESES EXPRESION . RPARENTHESES
+
+    RPARENTHESES    shift and go to state 122
+
+
+state 98
+
+    (46) FACTOR -> Sum_res_factor ID_CONST .
+
+    MULTIPLICATION  reduce using rule 46 (FACTOR -> Sum_res_factor ID_CONST .)
+    DIVISION        reduce using rule 46 (FACTOR -> Sum_res_factor ID_CONST .)
+    PLUS            reduce using rule 46 (FACTOR -> Sum_res_factor ID_CONST .)
+    MINUS           reduce using rule 46 (FACTOR -> Sum_res_factor ID_CONST .)
+    GREATER         reduce using rule 46 (FACTOR -> Sum_res_factor ID_CONST .)
+    LESS            reduce using rule 46 (FACTOR -> Sum_res_factor ID_CONST .)
+    NOT_EQUALS      reduce using rule 46 (FACTOR -> Sum_res_factor ID_CONST .)
+    SEMICOLON       reduce using rule 46 (FACTOR -> Sum_res_factor ID_CONST .)
+    COMMA           reduce using rule 46 (FACTOR -> Sum_res_factor ID_CONST .)
+    RPARENTHESES    reduce using rule 46 (FACTOR -> Sum_res_factor ID_CONST .)
+
+
+state 99
+
+    (50) ID_CONST -> ID .
+
+    MULTIPLICATION  reduce using rule 50 (ID_CONST -> ID .)
+    DIVISION        reduce using rule 50 (ID_CONST -> ID .)
+    PLUS            reduce using rule 50 (ID_CONST -> ID .)
+    MINUS           reduce using rule 50 (ID_CONST -> ID .)
+    GREATER         reduce using rule 50 (ID_CONST -> ID .)
+    LESS            reduce using rule 50 (ID_CONST -> ID .)
+    NOT_EQUALS      reduce using rule 50 (ID_CONST -> ID .)
+    SEMICOLON       reduce using rule 50 (ID_CONST -> ID .)
+    COMMA           reduce using rule 50 (ID_CONST -> ID .)
+    RPARENTHESES    reduce using rule 50 (ID_CONST -> ID .)
+
+
+state 100
+
+    (51) ID_CONST -> CTE .
+
+    MULTIPLICATION  reduce using rule 51 (ID_CONST -> CTE .)
+    DIVISION        reduce using rule 51 (ID_CONST -> CTE .)
+    PLUS            reduce using rule 51 (ID_CONST -> CTE .)
+    MINUS           reduce using rule 51 (ID_CONST -> CTE .)
+    GREATER         reduce using rule 51 (ID_CONST -> CTE .)
+    LESS            reduce using rule 51 (ID_CONST -> CTE .)
+    NOT_EQUALS      reduce using rule 51 (ID_CONST -> CTE .)
+    SEMICOLON       reduce using rule 51 (ID_CONST -> CTE .)
+    COMMA           reduce using rule 51 (ID_CONST -> CTE .)
+    RPARENTHESES    reduce using rule 51 (ID_CONST -> CTE .)
+
+
+state 101
+
+    (52) CTE -> CTE_INT .
+
+    MULTIPLICATION  reduce using rule 52 (CTE -> CTE_INT .)
+    DIVISION        reduce using rule 52 (CTE -> CTE_INT .)
+    PLUS            reduce using rule 52 (CTE -> CTE_INT .)
+    MINUS           reduce using rule 52 (CTE -> CTE_INT .)
+    GREATER         reduce using rule 52 (CTE -> CTE_INT .)
+    LESS            reduce using rule 52 (CTE -> CTE_INT .)
+    NOT_EQUALS      reduce using rule 52 (CTE -> CTE_INT .)
+    SEMICOLON       reduce using rule 52 (CTE -> CTE_INT .)
+    COMMA           reduce using rule 52 (CTE -> CTE_INT .)
+    RPARENTHESES    reduce using rule 52 (CTE -> CTE_INT .)
+
+
+state 102
+
+    (53) CTE -> CTE_FLOAT .
+
+    MULTIPLICATION  reduce using rule 53 (CTE -> CTE_FLOAT .)
+    DIVISION        reduce using rule 53 (CTE -> CTE_FLOAT .)
+    PLUS            reduce using rule 53 (CTE -> CTE_FLOAT .)
+    MINUS           reduce using rule 53 (CTE -> CTE_FLOAT .)
+    GREATER         reduce using rule 53 (CTE -> CTE_FLOAT .)
+    LESS            reduce using rule 53 (CTE -> CTE_FLOAT .)
+    NOT_EQUALS      reduce using rule 53 (CTE -> CTE_FLOAT .)
+    SEMICOLON       reduce using rule 53 (CTE -> CTE_FLOAT .)
+    COMMA           reduce using rule 53 (CTE -> CTE_FLOAT .)
+    RPARENTHESES    reduce using rule 53 (CTE -> CTE_FLOAT .)
+
+
+state 103
+
+    (64) F_CALL -> ID LPARENTHESES F_expresion RPARENTHESES . SEMICOLON
+
+    SEMICOLON       shift and go to state 123
+
+
+state 104
+
+    (67) List_fexpresions -> EXPRESION More_fexpresions .
+
+    RPARENTHESES    reduce using rule 67 (List_fexpresions -> EXPRESION More_fexpresions .)
+
+
+state 105
+
+    (68) More_fexpresions -> COMMA . List_fexpresions
+    (67) List_fexpresions -> . EXPRESION More_fexpresions
+    (31) EXPRESION -> . EXP Comp_logic
+    (37) EXP -> . TERMINO Sum_res
+    (41) TERMINO -> . FACTOR Mult_div
+    (45) FACTOR -> . LPARENTHESES EXPRESION RPARENTHESES
+    (46) FACTOR -> . Sum_res_factor ID_CONST
+    (47) Sum_res_factor -> . PLUS
+    (48) Sum_res_factor -> . MINUS
+    (49) Sum_res_factor -> . vacio
+    (70) vacio -> .
+
+    LPARENTHESES    shift and go to state 65
+    PLUS            shift and go to state 67
+    MINUS           shift and go to state 68
+    ID              reduce using rule 70 (vacio -> .)
+    CTE_INT         reduce using rule 70 (vacio -> .)
+    CTE_FLOAT       reduce using rule 70 (vacio -> .)
+
+    List_fexpresions               shift and go to state 124
+    EXPRESION                      shift and go to state 73
+    EXP                            shift and go to state 62
+    TERMINO                        shift and go to state 63
+    FACTOR                         shift and go to state 64
+    Sum_res_factor                 shift and go to state 66
+    vacio                          shift and go to state 69
+
+state 106
+
+    (69) More_fexpresions -> vacio .
+
+    RPARENTHESES    reduce using rule 69 (More_fexpresions -> vacio .)
+
+
+state 107
+
+    (61) CONDITION -> IF LPARENTHESES EXPRESION RPARENTHESES . BODY Else_condition SEMICOLON
+    (22) BODY -> . LCBRACKET Declare_statement RCBRACKET
+
+    LCBRACKET       shift and go to state 26
+
+    BODY                           shift and go to state 125
+
+state 108
+
+    (60) CYCLE -> DO BODY WHILE LPARENTHESES . EXPRESION RPARENTHESES SEMICOLON
+    (31) EXPRESION -> . EXP Comp_logic
+    (37) EXP -> . TERMINO Sum_res
+    (41) TERMINO -> . FACTOR Mult_div
+    (45) FACTOR -> . LPARENTHESES EXPRESION RPARENTHESES
+    (46) FACTOR -> . Sum_res_factor ID_CONST
+    (47) Sum_res_factor -> . PLUS
+    (48) Sum_res_factor -> . MINUS
+    (49) Sum_res_factor -> . vacio
+    (70) vacio -> .
+
+    LPARENTHESES    shift and go to state 65
+    PLUS            shift and go to state 67
+    MINUS           shift and go to state 68
+    ID              reduce using rule 70 (vacio -> .)
+    CTE_INT         reduce using rule 70 (vacio -> .)
+    CTE_FLOAT       reduce using rule 70 (vacio -> .)
+
+    EXPRESION                      shift and go to state 126
+    EXP                            shift and go to state 62
+    TERMINO                        shift and go to state 63
+    FACTOR                         shift and go to state 64
+    Sum_res_factor                 shift and go to state 66
+    vacio                          shift and go to state 69
+
+state 109
+
+    (54) PRINTF -> PRINT LPARENTHESES List_expresions RPARENTHESES . SEMICOLON
+
+    SEMICOLON       shift and go to state 127
+
+
+state 110
+
+    (55) List_expresions -> Opt_exp More_expresions .
+
+    RPARENTHESES    reduce using rule 55 (List_expresions -> Opt_exp More_expresions .)
+
+
+state 111
+
+    (58) More_expresions -> COMMA . List_expresions
+    (55) List_expresions -> . Opt_exp More_expresions
+    (56) Opt_exp -> . EXPRESION
+    (57) Opt_exp -> . CTE_STRING
+    (31) EXPRESION -> . EXP Comp_logic
+    (37) EXP -> . TERMINO Sum_res
+    (41) TERMINO -> . FACTOR Mult_div
+    (45) FACTOR -> . LPARENTHESES EXPRESION RPARENTHESES
+    (46) FACTOR -> . Sum_res_factor ID_CONST
+    (47) Sum_res_factor -> . PLUS
+    (48) Sum_res_factor -> . MINUS
+    (49) Sum_res_factor -> . vacio
+    (70) vacio -> .
+
+    CTE_STRING      shift and go to state 79
+    LPARENTHESES    shift and go to state 65
+    PLUS            shift and go to state 67
+    MINUS           shift and go to state 68
+    ID              reduce using rule 70 (vacio -> .)
+    CTE_INT         reduce using rule 70 (vacio -> .)
+    CTE_FLOAT       reduce using rule 70 (vacio -> .)
+
+    List_expresions                shift and go to state 128
+    Opt_exp                        shift and go to state 77
+    EXPRESION                      shift and go to state 78
+    EXP                            shift and go to state 62
+    TERMINO                        shift and go to state 63
+    FACTOR                         shift and go to state 64
+    Sum_res_factor                 shift and go to state 66
+    vacio                          shift and go to state 69
+
+state 112
+
+    (59) More_expresions -> vacio .
+
+    RPARENTHESES    reduce using rule 59 (More_expresions -> vacio .)
+
+
+state 113
+
+    (18) Parameters -> ID COLON Type More_parameters .
+
+    RPARENTHESES    reduce using rule 18 (Parameters -> ID COLON Type More_parameters .)
+
+
+state 114
+
+    (20) More_parameters -> COMMA . Parameters
+    (18) Parameters -> . ID COLON Type More_parameters
+    (19) Parameters -> . vacio
+    (70) vacio -> .
+
+    ID              shift and go to state 45
+    RPARENTHESES    reduce using rule 70 (vacio -> .)
+
+    Parameters                     shift and go to state 129
+    vacio                          shift and go to state 47
+
+state 115
+
+    (21) More_parameters -> vacio .
+
+    RPARENTHESES    reduce using rule 21 (More_parameters -> vacio .)
+
+
+state 116
+
+    (17) FUNCS -> VOID ID LPARENTHESES Parameters RPARENTHESES LBRACKET Declare_var . BODY RBRACKET SEMICOLON
+    (22) BODY -> . LCBRACKET Declare_statement RCBRACKET
+
+    LCBRACKET       shift and go to state 26
+
+    BODY                           shift and go to state 130
+
+state 117
+
+    (32) Comp_logic -> Op_logic EXP .
+
+    SEMICOLON       reduce using rule 32 (Comp_logic -> Op_logic EXP .)
+    COMMA           reduce using rule 32 (Comp_logic -> Op_logic EXP .)
+    RPARENTHESES    reduce using rule 32 (Comp_logic -> Op_logic EXP .)
+
+
+state 118
+
+    (38) Sum_res -> PLUS EXP .
+
+    GREATER         reduce using rule 38 (Sum_res -> PLUS EXP .)
+    LESS            reduce using rule 38 (Sum_res -> PLUS EXP .)
+    NOT_EQUALS      reduce using rule 38 (Sum_res -> PLUS EXP .)
+    SEMICOLON       reduce using rule 38 (Sum_res -> PLUS EXP .)
+    COMMA           reduce using rule 38 (Sum_res -> PLUS EXP .)
+    RPARENTHESES    reduce using rule 38 (Sum_res -> PLUS EXP .)
+
+
+state 119
+
+    (39) Sum_res -> MINUS EXP .
+
+    GREATER         reduce using rule 39 (Sum_res -> MINUS EXP .)
+    LESS            reduce using rule 39 (Sum_res -> MINUS EXP .)
+    NOT_EQUALS      reduce using rule 39 (Sum_res -> MINUS EXP .)
+    SEMICOLON       reduce using rule 39 (Sum_res -> MINUS EXP .)
+    COMMA           reduce using rule 39 (Sum_res -> MINUS EXP .)
+    RPARENTHESES    reduce using rule 39 (Sum_res -> MINUS EXP .)
+
+
+state 120
+
+    (42) Mult_div -> MULTIPLICATION TERMINO .
+
+    PLUS            reduce using rule 42 (Mult_div -> MULTIPLICATION TERMINO .)
+    MINUS           reduce using rule 42 (Mult_div -> MULTIPLICATION TERMINO .)
+    GREATER         reduce using rule 42 (Mult_div -> MULTIPLICATION TERMINO .)
+    LESS            reduce using rule 42 (Mult_div -> MULTIPLICATION TERMINO .)
+    NOT_EQUALS      reduce using rule 42 (Mult_div -> MULTIPLICATION TERMINO .)
+    SEMICOLON       reduce using rule 42 (Mult_div -> MULTIPLICATION TERMINO .)
+    COMMA           reduce using rule 42 (Mult_div -> MULTIPLICATION TERMINO .)
+    RPARENTHESES    reduce using rule 42 (Mult_div -> MULTIPLICATION TERMINO .)
+
+
+state 121
+
+    (43) Mult_div -> DIVISION TERMINO .
+
+    PLUS            reduce using rule 43 (Mult_div -> DIVISION TERMINO .)
+    MINUS           reduce using rule 43 (Mult_div -> DIVISION TERMINO .)
+    GREATER         reduce using rule 43 (Mult_div -> DIVISION TERMINO .)
+    LESS            reduce using rule 43 (Mult_div -> DIVISION TERMINO .)
+    NOT_EQUALS      reduce using rule 43 (Mult_div -> DIVISION TERMINO .)
+    SEMICOLON       reduce using rule 43 (Mult_div -> DIVISION TERMINO .)
+    COMMA           reduce using rule 43 (Mult_div -> DIVISION TERMINO .)
+    RPARENTHESES    reduce using rule 43 (Mult_div -> DIVISION TERMINO .)
+
+
+state 122
+
+    (45) FACTOR -> LPARENTHESES EXPRESION RPARENTHESES .
+
+    MULTIPLICATION  reduce using rule 45 (FACTOR -> LPARENTHESES EXPRESION RPARENTHESES .)
+    DIVISION        reduce using rule 45 (FACTOR -> LPARENTHESES EXPRESION RPARENTHESES .)
+    PLUS            reduce using rule 45 (FACTOR -> LPARENTHESES EXPRESION RPARENTHESES .)
+    MINUS           reduce using rule 45 (FACTOR -> LPARENTHESES EXPRESION RPARENTHESES .)
+    GREATER         reduce using rule 45 (FACTOR -> LPARENTHESES EXPRESION RPARENTHESES .)
+    LESS            reduce using rule 45 (FACTOR -> LPARENTHESES EXPRESION RPARENTHESES .)
+    NOT_EQUALS      reduce using rule 45 (FACTOR -> LPARENTHESES EXPRESION RPARENTHESES .)
+    SEMICOLON       reduce using rule 45 (FACTOR -> LPARENTHESES EXPRESION RPARENTHESES .)
+    COMMA           reduce using rule 45 (FACTOR -> LPARENTHESES EXPRESION RPARENTHESES .)
+    RPARENTHESES    reduce using rule 45 (FACTOR -> LPARENTHESES EXPRESION RPARENTHESES .)
+
+
+state 123
+
+    (64) F_CALL -> ID LPARENTHESES F_expresion RPARENTHESES SEMICOLON .
+
+    ID              reduce using rule 64 (F_CALL -> ID LPARENTHESES F_expresion RPARENTHESES SEMICOLON .)
+    IF              reduce using rule 64 (F_CALL -> ID LPARENTHESES F_expresion RPARENTHESES SEMICOLON .)
+    DO              reduce using rule 64 (F_CALL -> ID LPARENTHESES F_expresion RPARENTHESES SEMICOLON .)
+    PRINT           reduce using rule 64 (F_CALL -> ID LPARENTHESES F_expresion RPARENTHESES SEMICOLON .)
+    RCBRACKET       reduce using rule 64 (F_CALL -> ID LPARENTHESES F_expresion RPARENTHESES SEMICOLON .)
+
+
+state 124
+
+    (68) More_fexpresions -> COMMA List_fexpresions .
+
+    RPARENTHESES    reduce using rule 68 (More_fexpresions -> COMMA List_fexpresions .)
+
+
+state 125
+
+    (61) CONDITION -> IF LPARENTHESES EXPRESION RPARENTHESES BODY . Else_condition SEMICOLON
+    (62) Else_condition -> . ELSE BODY
+    (63) Else_condition -> . vacio
+    (70) vacio -> .
+
+    ELSE            shift and go to state 132
+    SEMICOLON       reduce using rule 70 (vacio -> .)
+
+    Else_condition                 shift and go to state 131
+    vacio                          shift and go to state 133
+
+state 126
+
+    (60) CYCLE -> DO BODY WHILE LPARENTHESES EXPRESION . RPARENTHESES SEMICOLON
+
+    RPARENTHESES    shift and go to state 134
+
+
+state 127
+
+    (54) PRINTF -> PRINT LPARENTHESES List_expresions RPARENTHESES SEMICOLON .
+
+    ID              reduce using rule 54 (PRINTF -> PRINT LPARENTHESES List_expresions RPARENTHESES SEMICOLON .)
+    IF              reduce using rule 54 (PRINTF -> PRINT LPARENTHESES List_expresions RPARENTHESES SEMICOLON .)
+    DO              reduce using rule 54 (PRINTF -> PRINT LPARENTHESES List_expresions RPARENTHESES SEMICOLON .)
+    PRINT           reduce using rule 54 (PRINTF -> PRINT LPARENTHESES List_expresions RPARENTHESES SEMICOLON .)
+    RCBRACKET       reduce using rule 54 (PRINTF -> PRINT LPARENTHESES List_expresions RPARENTHESES SEMICOLON .)
+
+
+state 128
+
+    (58) More_expresions -> COMMA List_expresions .
+
+    RPARENTHESES    reduce using rule 58 (More_expresions -> COMMA List_expresions .)
+
+
+state 129
+
+    (20) More_parameters -> COMMA Parameters .
+
+    RPARENTHESES    reduce using rule 20 (More_parameters -> COMMA Parameters .)
+
+
+state 130
+
+    (17) FUNCS -> VOID ID LPARENTHESES Parameters RPARENTHESES LBRACKET Declare_var BODY . RBRACKET SEMICOLON
+
+    RBRACKET        shift and go to state 135
+
+
+state 131
+
+    (61) CONDITION -> IF LPARENTHESES EXPRESION RPARENTHESES BODY Else_condition . SEMICOLON
+
+    SEMICOLON       shift and go to state 136
+
+
+state 132
+
+    (62) Else_condition -> ELSE . BODY
+    (22) BODY -> . LCBRACKET Declare_statement RCBRACKET
+
+    LCBRACKET       shift and go to state 26
+
+    BODY                           shift and go to state 137
+
+state 133
+
+    (63) Else_condition -> vacio .
+
+    SEMICOLON       reduce using rule 63 (Else_condition -> vacio .)
+
+
+state 134
+
+    (60) CYCLE -> DO BODY WHILE LPARENTHESES EXPRESION RPARENTHESES . SEMICOLON
+
+    SEMICOLON       shift and go to state 138
+
+
+state 135
+
+    (17) FUNCS -> VOID ID LPARENTHESES Parameters RPARENTHESES LBRACKET Declare_var BODY RBRACKET . SEMICOLON
+
+    SEMICOLON       shift and go to state 139
+
+
+state 136
+
+    (61) CONDITION -> IF LPARENTHESES EXPRESION RPARENTHESES BODY Else_condition SEMICOLON .
+
+    ID              reduce using rule 61 (CONDITION -> IF LPARENTHESES EXPRESION RPARENTHESES BODY Else_condition SEMICOLON .)
+    IF              reduce using rule 61 (CONDITION -> IF LPARENTHESES EXPRESION RPARENTHESES BODY Else_condition SEMICOLON .)
+    DO              reduce using rule 61 (CONDITION -> IF LPARENTHESES EXPRESION RPARENTHESES BODY Else_condition SEMICOLON .)
+    PRINT           reduce using rule 61 (CONDITION -> IF LPARENTHESES EXPRESION RPARENTHESES BODY Else_condition SEMICOLON .)
+    RCBRACKET       reduce using rule 61 (CONDITION -> IF LPARENTHESES EXPRESION RPARENTHESES BODY Else_condition SEMICOLON .)
+
+
+state 137
+
+    (62) Else_condition -> ELSE BODY .
+
+    SEMICOLON       reduce using rule 62 (Else_condition -> ELSE BODY .)
+
+
+state 138
+
+    (60) CYCLE -> DO BODY WHILE LPARENTHESES EXPRESION RPARENTHESES SEMICOLON .
+
+    ID              reduce using rule 60 (CYCLE -> DO BODY WHILE LPARENTHESES EXPRESION RPARENTHESES SEMICOLON .)
+    IF              reduce using rule 60 (CYCLE -> DO BODY WHILE LPARENTHESES EXPRESION RPARENTHESES SEMICOLON .)
+    DO              reduce using rule 60 (CYCLE -> DO BODY WHILE LPARENTHESES EXPRESION RPARENTHESES SEMICOLON .)
+    PRINT           reduce using rule 60 (CYCLE -> DO BODY WHILE LPARENTHESES EXPRESION RPARENTHESES SEMICOLON .)
+    RCBRACKET       reduce using rule 60 (CYCLE -> DO BODY WHILE LPARENTHESES EXPRESION RPARENTHESES SEMICOLON .)
+
+
+state 139
+
+    (17) FUNCS -> VOID ID LPARENTHESES Parameters RPARENTHESES LBRACKET Declare_var BODY RBRACKET SEMICOLON .
+
+    VOID            reduce using rule 17 (FUNCS -> VOID ID LPARENTHESES Parameters RPARENTHESES LBRACKET Declare_var BODY RBRACKET SEMICOLON .)
+    MAIN            reduce using rule 17 (FUNCS -> VOID ID LPARENTHESES Parameters RPARENTHESES LBRACKET Declare_var BODY RBRACKET SEMICOLON .)
+
+WARNING: 
+WARNING: Conflicts:
+WARNING: 
+WARNING: reduce/reduce conflict in state 19 resolved using rule (Declare_func -> vacio)
+WARNING: rejected rule (More_func -> vacio) in state 19
+WARNING: Rule (More_func -> vacio) is never reduced
