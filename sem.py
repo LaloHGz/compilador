@@ -1,4 +1,3 @@
-from dataclasses import dataclass
 
 # Creation of class to define the structure of D_Functions & D_Vars
 class D_Functions:
