@@ -11,7 +11,7 @@ temp_ids = []
 
 # Parsing rules
 def p_Programa(p):
-    'Programa : PROGRAM ID ACTION_1 SEMICOLON Declare_var Declare_func MAIN ACTION_5 BODY END'
+    'Programa : PROGRAM ID ACTION_1 SEMICOLON Declare_var Declare_func MAIN BODY END'
     
 # Initialize D_Functions & D_Vars 
 def p_action_1(p):
@@ -19,10 +19,7 @@ def p_action_1(p):
     # 1.- Add the first function program name
     d_functions.add_function(p[-1],"NP")
     d_functions.set_global_function(p[-1])
-    
-def p_action_5(p):
-    'ACTION_5 :'
-    d_functions.add_function(p[-1],"main")
+
 
 def p_Declare_var(p):
     '''Declare_var : VARS
