@@ -1,5 +1,5 @@
 from lexer import lexer
-from parser_1 import parser
+from parser_1 import parser,d_functions
 from tests import tests  # Import test cases
 
 # run test case number
@@ -17,6 +17,7 @@ def testCase(n):
     parser.parse(tests[n], tracking = True, debug = True)
     
 # run testCase n    
-testCase(0)
+testCase(5)
 
+print(d_functions.functions)
 
