@@ -27,6 +27,19 @@ class D_Functions:
         else:
             raise ValueError("No current function selected.")
 
+    def get_variable_type(self, variable_name):
+        """
+        Method to get the type of a variable by first looking in the current function's scope,
+        and if not found, looking in the global function's scope.
+        """
+        # Check in the current function
+        if self.current_function and variable_name in self.functions[self.current_function]['variables']:
+            return self.functions[self.current_function]['variables'][variable_name]
+        # Check in the global function
+        elif self.global_function and variable_name in self.functions[self.global_function]['variables']:
+            return self.functions[self.global_function]['variables'][variable_name]
+        else:
+            raise ValueError("Variable not found")  # Variable not found in either scope
 
 
 # Stack PilaO class
@@ -137,11 +150,15 @@ class Quadruples:
     def __init__(self):
         # Initialize the table as a list of dictionaries
         self.table = []
+        self.result_counter = 1  # Counter for result naming
 
     def add_entry(self, action, left_side=None, right_side=None, result=None):
         """
-        Method to add an entry to the quadruples table.
+        Method to add an entry to the quadruples table. The result field is automatically generated if its not none.
         """
+        if(result == None):
+            result = f"t{self.result_counter}"
+            self.result_counter += 1
         entry = {
             'action': action,
             'left_side': left_side,
@@ -159,6 +176,16 @@ class Quadruples:
             return self.table[index]
         else:
             print("Index out of range")
+            return None
+        
+    def get_last_result(self):
+        """
+        Method to get the result of the last entry in the quadruples table.
+        """
+        if self.table:
+            return self.table[-1]['result']
+        else:
+            print("The quadruples table is empty")
             return None
 
     def update_result(self, index, new_result):
@@ -191,82 +218,137 @@ SEM = {
     '+': {
         'int': {
             'int': 'int',
-            'float': 'float'
+            'float': 'float',
+            'bool': 'error'  # Operations with bool are errors
         },
         'float': {
             'int': 'float',
-            'float': 'float'
+            'float': 'float',
+            'bool': 'error'  # Operations with bool are errors
+        },
+        'bool': {
+            'int': 'error',
+            'float': 'error',
+            'bool': 'error'  # Operations with bool are errors
         }
     },
     '-': {
         'int': {
             'int': 'int',
-            'float': 'float'
+            'float': 'float',
+            'bool': 'error'  # Operations with bool are errors
         },
         'float': {
             'int': 'float',
-            'float': 'float'
+            'float': 'float',
+            'bool': 'error'  # Operations with bool are errors
+        },
+        'bool': {
+            'int': 'error',
+            'float': 'error',
+            'bool': 'error'  # Operations with bool are errors
         }
     },
     '*': {
         'int': {
             'int': 'int',
-            'float': 'float'
+            'float': 'float',
+            'bool': 'error'  # Operations with bool are errors
         },
         'float': {
             'int': 'float',
-            'float': 'float'
+            'float': 'float',
+            'bool': 'error'  # Operations with bool are errors
+        },
+        'bool': {
+            'int': 'error',
+            'float': 'error',
+            'bool': 'error'  # Operations with bool are errors
         }
     },
     '/': {
         'int': {
             'int': 'int',
-            'float': 'float'
+            'float': 'float',
+            'bool': 'error'  # Operations with bool are errors
         },
         'float': {
             'int': 'float',
-            'float': 'float'
+            'float': 'float',
+            'bool': 'error'  # Operations with bool are errors
+        },
+        'bool': {
+            'int': 'error',
+            'float': 'error',
+            'bool': 'error'  # Operations with bool are errors
         }
     },
     '=': {
         'int': {
             'int': 'int',
-            'float': 'error'  # Cannot assign float to int
+            'float': 'error',  # Cannot assign float to int
+            'bool': 'error'  # Cannot assign bool to int
         },
         'float': {
             'int': 'float', 
-            'float': 'float'
+            'float': 'float',
+            'bool': 'error'  # Cannot assign bool to float
+        },
+        'bool': {
+            'int': 'error',  # Cannot assign int to bool
+            'float': 'error',  # Cannot assign float to bool
+            'bool': 'bool'
         }
     },
     '>': {
         'int': {
             'int': 'bool',
-            'float': 'bool'
+            'float': 'bool',
+            'bool': 'error'  # Operations with bool are errors
         },
         'float': {
             'int': 'bool',
-            'float': 'bool'
+            'float': 'bool',
+            'bool': 'error'  # Operations with bool are errors
+        },
+        'bool': {
+            'int': 'error',  # Operations with bool are errors
+            'float': 'error',  # Operations with bool are errors
+            'bool': 'bool'
         }
     },
     '<': {
         'int': {
             'int': 'bool',
-            'float': 'bool'
+            'float': 'bool',
+            'bool': 'error'  # Operations with bool are errors
         },
         'float': {
             'int': 'bool',
-            'float': 'bool'
+            'float': 'bool',
+            'bool': 'error'  # Operations with bool are errors
+        },
+        'bool': {
+            'int': 'error',  # Operations with bool are errors
+            'float': 'error',  # Operations with bool are errors
+            'bool': 'bool'
         }
     },
     '!=': {
         'int': {
             'int': 'bool',
-            'float': 'bool'
+            'float': 'bool',
+            'bool': 'error'  # Operations with bool are errors
         },
         'float': {
             'int': 'bool',
-            'float': 'bool'
+            'float': 'bool',
+            'bool': 'error'  # Operations with bool are errors
+        },
+        'bool': {
+            'int': 'error',  # Operations with bool are errors
+            'float': 'error',  # Operations with bool are errors
+            'bool': 'bool'
         }
     }
 }
-

@@ -110,38 +110,38 @@ def p_STATEMENT(p):
 
 
 def p_ASSIGN(p):
-    'ASSIGN : ID EQUALS EXPRESION SEMICOLON'
+    'ASSIGN : ID ACTION_1_2_ID EQUALS ACTION_2_2 EXPRESION SEMICOLON ACTION_10_2'
 
 def p_EXPRESION(p):
     'EXPRESION : EXP Comp_logic'
 
 def p_Comp_logic(p):
-    '''Comp_logic : Op_logic EXP
+    '''Comp_logic : Op_logic EXP ACTION_9_2
                   | vacio'''
 
 def p_Op_logic(p):
-    '''Op_logic : GREATER
-                | LESS
-                | NOT_EQUALS'''
+    '''Op_logic : GREATER ACTION_8_2
+                | LESS ACTION_8_2
+                | NOT_EQUALS ACTION_8_2'''
 
 def p_EXP(p):
-    'EXP : TERMINO Sum_res'
+    'EXP : TERMINO ACTION_4_2 Sum_res'
 
 def p_Sum_res(p):
-    '''Sum_res : PLUS EXP
-               | MINUS EXP
+    '''Sum_res : PLUS ACTION_2_2 EXP
+               | MINUS ACTION_2_2 EXP
                | vacio'''
 
 def p_TERMINO(p):
-    'TERMINO : FACTOR Mult_div'
+    'TERMINO : FACTOR ACTION_5_2 Mult_div'
 
 def p_Mult_div(p):
-    '''Mult_div : MULTIPLICATION TERMINO
-                | DIVISION TERMINO
+    '''Mult_div : MULTIPLICATION ACTION_3_2 TERMINO
+                | DIVISION ACTION_3_2 TERMINO
                 | vacio'''
 
 def p_FACTOR(p):
-    '''FACTOR : LPARENTHESES EXPRESION RPARENTHESES
+    '''FACTOR : LPARENTHESES ACTION_6_2 EXPRESION RPARENTHESES ACTION_7_2
               | Sum_res_factor ID_CONST'''
 
 
@@ -151,35 +151,147 @@ def p_Sum_res_factor(p):
                       | vacio'''
 
 def p_ID_CONST(p):
-    '''ID_CONST : ID
+    '''ID_CONST : ID ACTION_1_2_ID
                 | CTE'''
 
+def p_action_1_2_id(p):
+    'ACTION_1_2_ID :'
+    pila_o.push(p[-1],d_functions.get_variable_type(p[-1]))
+    
+                
+def p_action_1_2_int(p):
+    'ACTION_1_2_INT :'
+    pila_o.push(p[-1],"int")
+    
+def p_action_1_2_float(p):
+    'ACTION_1_2_FLOAT :'
+    pila_o.push(p[-1],"float")
+
+def p_action_2_2(p):
+    'ACTION_2_2 :'
+    poper.push(p[-1])
+    
+def p_action_3_2(p):
+    'ACTION_3_2 :'
+    poper.push(p[-1])
+    
+def p_action_4_2(p):
+    'ACTION_4_2 :'
+    if(poper.top() == "+" or poper.top() == "-"):
+        right_op, right_type = pila_o.pop()
+        left_op, left_type = pila_o.pop()
+        operator = poper.pop()
+        result_type = SEM[operator][left_type][right_type]
+        if(result_type != "error"):
+            quadruples.add_entry(operator,left_op,right_op)
+            last_result = quadruples.get_last_result()
+            pila_o.push(last_result,result_type)
+        else:
+            raise ValueError("Type mismatch")
+            
+def p_action_5_2(p):
+    'ACTION_5_2 :'
+    if(poper.top() == "*" or poper.top() == "/"):
+        right_op, right_type = pila_o.pop()
+        left_op, left_type = pila_o.pop()
+        operator = poper.pop()
+        result_type = SEM[operator][left_type][right_type]
+        if(result_type != "error"):
+            quadruples.add_entry(operator,left_op,right_op)
+            last_result = quadruples.get_last_result()
+            pila_o.push(last_result,result_type)
+        else:
+            raise ValueError("Type mismatch")
+
+def p_action_6_2(p):
+    'ACTION_6_2 :'
+    poper.push("(")
+
+def p_action_7_2(p):
+    'ACTION_7_2 :'
+    poper.pop()
+    
+def p_action_8_2(p):
+    'ACTION_8_2 :'
+    poper.push(p[-1])
+    
+def p_action_9_2(p):
+    'ACTION_9_2 :'
+    if(poper.top() == ">" or poper.top() == "<" or poper.top() == "!="):
+        right_op, right_type = pila_o.pop()
+        left_op, left_type = pila_o.pop()
+        operator = poper.pop()
+        result_type = SEM[operator][left_type][right_type]
+        if(result_type != "error"):
+            quadruples.add_entry(operator,left_op,right_op)
+            last_result = quadruples.get_last_result()
+            pila_o.push(last_result,result_type)
+        else:
+            raise ValueError("Type mismatch")
+
+    
+def p_action_10_2(p):
+    'ACTION_10_2 :'
+    right_op, right_type = pila_o.pop()
+    left_op, left_type = pila_o.pop()
+    operator = poper.pop()
+    result_type = SEM[operator][left_type][right_type]
+    if(result_type != "error"):
+        quadruples.add_entry(operator,right_op,None,left_op)
+        last_result = quadruples.get_last_result()
+        pila_o.push(last_result,result_type)
+    else:
+        raise ValueError("Type mismatch")
+
 def p_CTE(p):
-    '''CTE : CTE_INT
-           | CTE_FLOAT'''
+    '''CTE : CTE_INT ACTION_1_2_INT
+           | CTE_FLOAT ACTION_1_2_FLOAT'''
 
 def p_PRINTF(p):
     'PRINTF : PRINT LPARENTHESES List_expresions RPARENTHESES SEMICOLON'
 
 def p_List_expresions(p):
-    'List_expresions : Opt_exp More_expresions'
+    'List_expresions : Opt_exp ACTION_2_PRINT More_expresions'
 
 def p_Opt_exp(p):
     '''Opt_exp : EXPRESION
-               | CTE_STRING'''
+               | CTE_STRING ACTION_1_PRINT'''
 
 def p_more_expresions(p):
     '''More_expresions : COMMA List_expresions
                        | vacio'''
+                       
+def p_action_1_print(p):
+    'ACTION_1_PRINT :'
+    pila_o.push(p[-1],"string")
+    
+def p_action_2_print(p):
+    'ACTION_2_PRINT :'
+    elem, elem_type = pila_o.pop()
+    quadruples.add_entry("print",None,None,elem)
+    
 
 def p_CYCLE(p):
-    'CYCLE : DO  BODY WHILE LPARENTHESES EXPRESION RPARENTHESES SEMICOLON'
+    'CYCLE : DO ACTION_1_DW BODY WHILE LPARENTHESES EXPRESION RPARENTHESES SEMICOLON ACTION_2_DW'
+
+def p_action_1_dw(p):
+    'ACTION_1_DW :'
+    psaltos.push(quadruples.size())
+    
+def p_action_2_dw(p):
+    'ACTION_2_DW :'
+    cond, cond_type = pila_o.pop()
+    if(cond_type == "bool"):
+        retorno = psaltos.pop()
+        quadruples.add_entry("gotoV",cond, None,retorno)
+    else:
+        raise ValueError("Type mismatch condition type: ",cond_type,", expected bool")
 
 def p_CONDITION(p):
-    'CONDITION : IF LPARENTHESES EXPRESION RPARENTHESES BODY Else_condition SEMICOLON'
+    'CONDITION : IF LPARENTHESES EXPRESION RPARENTHESES ACTION_1_IF BODY Else_condition SEMICOLON ACTION_2_IF'
 
 def p_Else_condition(p):
-    '''Else_condition : ELSE BODY
+    '''Else_condition : ELSE ACTION_3_IF BODY
                       | vacio'''
 
 def p_F_call(p):
@@ -196,6 +308,26 @@ def p_More_fexpresions(p):
     '''More_fexpresions : COMMA List_fexpresions
                         | vacio'''
 
+def p_action_1_if(p):
+    'ACTION_1_IF :'
+    result, exp_type = pila_o.pop()
+    if(exp_type != "bool"):
+        raise ValueError("Type Mismatch")
+    else:
+        quadruples.add_entry("gotoF",result, None, None)
+        psaltos.push(quadruples.size()-1)
+        
+def p_action_2_if(p):
+    'ACTION_2_IF :'
+    end = psaltos.pop()
+    quadruples.update_result(end,quadruples.size())
+    
+def p_action_3_if(p):
+    'ACTION_3_IF :'
+    quadruples.add_entry("goto",None, None,None)
+    _false = psaltos.pop()
+    psaltos.push(quadruples.size()-1)
+    quadruples.update_result(_false,quadruples.size())
 
 # Error rule for syntax errors
 def p_error(p):

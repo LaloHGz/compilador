@@ -1,5 +1,5 @@
 from lexer import lexer
-from parser_1 import parser,d_functions
+from parser_1 import parser,d_functions, quadruples
 from tests import tests  # Import test cases
 
 # run test case number
@@ -14,10 +14,12 @@ def testCase(n):
             break      # No more input
         print(tok)
 
-    parser.parse(tests[n], tracking = True, debug = True)
+    #parser.parse(tests[n], tracking = True, debug = True)
+    parser.parse(tests[n])
     
 # run testCase n    
-testCase(5)
+testCase(0)
 
 print(d_functions.functions)
 
+quadruples.display()

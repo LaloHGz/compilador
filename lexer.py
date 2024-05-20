@@ -77,7 +77,7 @@ def t_CTE_INT(t):
     return t
 
 def t_CTE_STRING(t):
-    r'\"[a-zA-Z0-9 ]*\"'
+    r'\".*?\"'
     return t
 
 def t_ID(t):

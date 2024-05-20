@@ -3,12 +3,13 @@ tests = [
     #test 0
     '''
 program abc; 
-var mariana, lalo : int; 
-    alberto, andres : float; 
+var mariana, lalo,idss : int; 
+    alberto, andres, max : float; 
 
 void nuevo(edad:int,altura:float)[
     var comida,restaurante: int; mesa: int; {
-        restaurante = 10; print("hola"); 
+        restaurante = 10; 
+        print("hola"); 
     }
 ]; 
 
@@ -16,7 +17,7 @@ main {
     do{
         print("hello mariana");
     }
-    while(idss);
+    while(idss > max);
 } 
 
 end''', 
@@ -24,9 +25,29 @@ end''',
 #test 1
 '''
 program prueba;
+var 
+    a,b,c,d, e, f, k, h, i, j, goles, partidos, p_victoria: int;
 
 main{ 
+    a = b + c * d * ((e + f)/(i-f));
 
+    if ((a*7 / b) > (5*5*5)){
+        a = b + d * f;
+        print("comida corrida");
+    }else {
+        print("Negative");
+        print("c + d * a / b");
+        print(" aaassffmk");
+    };
+    print("c + d * a / b");
+    print(" aaassffmk");
+    
+    do{
+        goles = partidos * p_victoria;
+        partidos = partidos - 1;
+    }
+    while(partidos > 5);
+    
 } 
 
 end''',
@@ -34,6 +55,8 @@ end''',
 #test 2
 '''
 program prueba;
+
+var a,b:int;
 
 main{ 
 
@@ -98,7 +121,7 @@ void futbol(partidos:int, goles:int, p_victoria:float)[
         p_victoria = partidos * goles * 0.10;
         
         do{
-          goles = partidos * p_victoria;
+          p_victoria = partidos * p_victoria;
           partidos = partidos - 1;
         }
         while(partidos > 5);
@@ -118,11 +141,8 @@ void atp(n_player:int, ace: int, wins: int, ranking: int)[
 
 main {
     x = 6;
-    partidos = 10;
-    goles = 10;
-    p_victoria = 0.53;
     print("fibonacci");
-    futbol(partidos,goles,p_victoria);
+    futbol(3527,123,54,120.2);
     atp(3527,123,54,120);
 } 
 
@@ -133,8 +153,9 @@ end
 '''
 program prueba;
 
-main{  
+main{
 
+}  
 end'''
 
 ]
