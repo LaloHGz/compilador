@@ -27,7 +27,110 @@ class D_Functions:
         else:
             raise ValueError("No current function selected.")
 
+# Stack PilaO class
+class PilaO:
+    def __init__(self):
+        self.pila_operandos = []  # Stack to store operands
+        self.pila_tipos = []       # Stack to store operand types
 
+    def push(self, operando, tipo):
+        """
+        Method to add an operand and its type to the stacks.
+        """
+        self.pila_operandos.append(operando)
+        self.pila_tipos.append(tipo)
+        print(f"Added operand: {operando} with type: {tipo}")
+
+    def pop(self):
+        """
+        Method to remove the last operand and its type from the stacks.
+        """
+        if not self.is_empty():
+            operando = self.pila_operandos.pop()
+            tipo = self.pila_tipos.pop()
+            print(f"Removed operand: {operando} with type: {tipo}")
+            return operando, tipo
+        else:
+            print("The stacks are empty")
+            return None, None
+
+    def peek(self):
+        """
+        Method to get the last operand and its type without removing them from the stacks.
+        """
+        if not self.is_empty():
+            operando = self.pila_operandos[-1]
+            tipo = self.pila_tipos[-1]
+            return operando, tipo
+        else:
+            print("The stacks are empty")
+            return None, None
+
+    def is_empty(self):
+        """
+        Method to check if the stacks are empty.
+        """
+        return len(self.pila_operandos) == 0 and len(self.pila_tipos) == 0
+
+    def size(self):
+        """
+        Method to get the size of the stacks.
+        """
+        return len(self.pila_operandos)
+
+    
+# Stack Poper class
+class Poper:
+    def __init__(self):
+        self.pila_operadores = []  # Stack to store operators
+
+    def push(self, operador, tipo):
+        """
+        Method to add an operator  to the stack.
+        """
+        self.pila_operadores.append(operador)
+        print(f"Added operator: {operador}")
+
+    def pop(self):
+        """
+        Method to remove the last operator from the stack.
+        """
+        if not self.is_empty():
+            operador = self.pila_operadores.pop()
+            print(f"Removed operator: {operador}")
+            return operador
+        else:
+            print("The stack is empty")
+            return None
+
+    def peek(self):
+        """
+        Method to get the last operator without removing it from the stack.
+        """
+        if not self.is_empty():
+            operador = self.pila_operadores[-1]
+            return operador
+        else:
+            print("The stack is empty")
+            return None
+
+    def is_empty(self):
+        """
+        Method to check if the stack is empty.
+        """
+        return len(self.pila_operadores) == 0
+
+    def size(self):
+        """
+        Method to get the size of the stack.
+        """
+        return len(self.pila_operadores)
+    
+    
+    
+    
+    
+    
     
 # Definition of Semantic Cube
 SEM = {
