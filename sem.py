@@ -27,6 +27,8 @@ class D_Functions:
         else:
             raise ValueError("No current function selected.")
 
+
+
 # Stack PilaO class
 class PilaO:
     def __init__(self):
@@ -79,101 +81,53 @@ class PilaO:
         return len(self.pila_operandos)
 
     
-# Stack Poper class
-class Poper:
-    def __init__(self):
-        self.pila_operadores = []  # Stack to store operators
+# Generic Stack class for Poper & PSaltos
+class Pila:
+    def __init__(self, name):
+        self.name = name
+        self.stack = []  # Stack to store elements
 
-    def push(self, operador):
+    def push(self, element):
         """
-        Method to add an operator  to the stack.
+        Method to add an element to the stack.
         """
-        self.pila_operadores.append(operador)
-        print(f"Added operator: {operador}")
+        self.stack.append(element)
+        print(f"Added {self.name}: {element}")
 
     def pop(self):
         """
-        Method to remove the last operator from the stack.
+        Method to remove the last element from the stack.
         """
         if not self.is_empty():
-            operador = self.pila_operadores.pop()
-            print(f"Removed operator: {operador}")
-            return operador
+            element = self.stack.pop()
+            print(f"Removed {self.name}: {element}")
+            return element
         else:
-            print("The stack is empty")
+            print(f"The {self.name} stack is empty")
             return None
 
     def top(self):
         """
-        Method to get the last operator without removing it from the stack.
+        Method to get the last element without removing it from the stack.
         """
         if not self.is_empty():
-            operador = self.pila_operadores[-1]
-            return operador
+            element = self.stack[-1]
+            return element
         else:
-            print("The stack is empty")
+            print(f"The {self.name} stack is empty")
             return None
 
     def is_empty(self):
         """
         Method to check if the stack is empty.
         """
-        return len(self.pila_operadores) == 0
+        return len(self.stack) == 0
 
     def size(self):
         """
         Method to get the size of the stack.
         """
-        return len(self.pila_operadores)
-
- 
- 
-# Stack PSaltos class
-class PSaltos:
-    def __init__(self):
-        self.pila_saltos = []  # Stack to store jumps
-
-    def push(self, salto):
-        """
-        Method to add a jump to the stack.
-        """
-        self.pila_saltos.append(salto)
-        print(f"Added jump: {salto}")
-
-    def pop(self):
-        """
-        Method to remove the last jump from the stack.
-        """
-        if not self.is_empty():
-            salto = self.pila_saltos.pop()
-            print(f"Removed jump: {salto}")
-            return salto
-        else:
-            print("The stack is empty")
-            return None
-
-    def top(self):
-        """
-        Method to get the last jump without removing it from the stack.
-        """
-        if not self.is_empty():
-            salto = self.pila_saltos[-1]
-            return salto
-        else:
-            print("The stack is empty")
-            return None
-
-    def is_empty(self):
-        """
-        Method to check if the stack is empty.
-        """
-        return len(self.pila_saltos) == 0
-
-    def size(self):
-        """
-        Method to get the size of the stack.
-        """
-        return len(self.pila_saltos)
+        return len(self.stack)
 
 
 
