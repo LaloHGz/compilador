@@ -84,7 +84,7 @@ class Poper:
     def __init__(self):
         self.pila_operadores = []  # Stack to store operators
 
-    def push(self, operador, tipo):
+    def push(self, operador):
         """
         Method to add an operator  to the stack.
         """
@@ -127,10 +127,58 @@ class Poper:
         return len(self.pila_operadores)
     
     
-    
-    
-    
-    
+class Quadruples:
+    def __init__(self):
+        # Initialize the table as a list of dictionaries
+        self.table = []
+
+    def add_entry(self, action, left_side=None, right_side=None, result=None):
+        """
+        Method to add an entry to the quadruples table.
+        """
+        entry = {
+            'action': action,
+            'left_side': left_side,
+            'right_side': right_side,
+            'result': result
+        }
+        self.table.append(entry)
+        print(f"Added entry: {entry}")
+
+    def get_entry(self, index):
+        """
+        Method to get an entry by index from the quadruples table.
+        """
+        if 0 <= index < len(self.table):
+            return self.table[index]
+        else:
+            print("Index out of range")
+            return None
+
+    def update_result(self, index, new_result):
+        """
+        Method to update the result of a specific entry in the quadruples table.
+        """
+        if 0 <= index < len(self.table):
+            self.table[index]['result'] = new_result
+            print(f"Updated entry at index {index} with new result: {new_result}")
+        else:
+            print("Index out of range")
+
+    def size(self):
+        """
+        Method to get the number of entries in the quadruples table.
+        """
+        return len(self.table)
+
+    def display(self):
+        """
+        Method to display the entire quadruples table.
+        """
+        for index, entry in enumerate(self.table):
+            print(f"{index}: {entry}")
+
+
     
 # Definition of Semantic Cube
 SEM = {
