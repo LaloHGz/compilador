@@ -1,6 +1,6 @@
 import ply.yacc as yacc
 from lexer import tokens
-from sem import D_Functions, SEM
+from sem import D_Functions, SEM, PilaO, Pila, Quadruples
 
 # Create the Functions Directory
 d_functions = D_Functions()
@@ -8,6 +8,17 @@ d_functions = D_Functions()
 # Create list of temporary ids
 temp_ids = []
 
+# Create PilaO
+pila_o = PilaO()
+
+# Create Poper
+poper = Pila("operators")
+
+# Create PSaltos
+psaltos = Pila("jumps")
+
+# Create list of Quadruples
+quadruples = Quadruples()
 
 # Parsing rules
 def p_Programa(p):
