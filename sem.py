@@ -54,7 +54,7 @@ class PilaO:
             print("The stacks are empty")
             return None, None
 
-    def peek(self):
+    def top(self):
         """
         Method to get the last operand and its type without removing them from the stacks.
         """
@@ -103,7 +103,7 @@ class Poper:
             print("The stack is empty")
             return None
 
-    def peek(self):
+    def top(self):
         """
         Method to get the last operator without removing it from the stack.
         """
@@ -125,8 +125,59 @@ class Poper:
         Method to get the size of the stack.
         """
         return len(self.pila_operadores)
-    
-    
+
+ 
+ 
+# Stack PSaltos class
+class PSaltos:
+    def __init__(self):
+        self.pila_saltos = []  # Stack to store jumps
+
+    def push(self, salto):
+        """
+        Method to add a jump to the stack.
+        """
+        self.pila_saltos.append(salto)
+        print(f"Added jump: {salto}")
+
+    def pop(self):
+        """
+        Method to remove the last jump from the stack.
+        """
+        if not self.is_empty():
+            salto = self.pila_saltos.pop()
+            print(f"Removed jump: {salto}")
+            return salto
+        else:
+            print("The stack is empty")
+            return None
+
+    def top(self):
+        """
+        Method to get the last jump without removing it from the stack.
+        """
+        if not self.is_empty():
+            salto = self.pila_saltos[-1]
+            return salto
+        else:
+            print("The stack is empty")
+            return None
+
+    def is_empty(self):
+        """
+        Method to check if the stack is empty.
+        """
+        return len(self.pila_saltos) == 0
+
+    def size(self):
+        """
+        Method to get the size of the stack.
+        """
+        return len(self.pila_saltos)
+
+
+
+# Table of Quadruples class
 class Quadruples:
     def __init__(self):
         # Initialize the table as a list of dictionaries
