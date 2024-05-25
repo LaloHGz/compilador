@@ -1,9 +1,12 @@
 import ply.yacc as yacc
 from lexer import tokens
-from sem import D_Functions, SEM, PilaO, Pila, Quadruples
+from sem import D_Functions, SEM, PilaO, Pila, Quadruples, MemoryManager
+
+# Create Virtual Memory Manager
+memory_manager = MemoryManager()
 
 # Create the Functions Directory
-d_functions = D_Functions()
+d_functions = D_Functions(memory_manager)
 
 # Create list of temporary ids
 temp_ids = []
@@ -18,11 +21,11 @@ poper = Pila("operators")
 psaltos = Pila("jumps")
 
 # Create list of Quadruples
-quadruples = Quadruples()
+quadruples = Quadruples(memory_manager)
 
 # Parsing rules
 def p_Programa(p):
-    'Programa : PROGRAM ID ACTION_1 SEMICOLON Declare_var Declare_func MAIN BODY END'
+    'Programa : PROGRAM ID ACTION_1 SEMICOLON Declare_var Declare_func MAIN BODY END FINAL_ACTION'
     
 # Initialize D_Functions & D_Vars 
 def p_action_1(p):
@@ -31,6 +34,10 @@ def p_action_1(p):
     d_functions.add_function(p[-1],"NP")
     d_functions.set_global_function(p[-1])
 
+
+def p_action_final(p):
+    'FINAL_ACTION :'
+    memory_manager.display_memory()
 
 def p_Declare_var(p):
     '''Declare_var : VARS
@@ -160,16 +167,16 @@ def p_CTE(p):
 
 def p_action_1_2_id(p):
     'ACTION_1_2_ID :'
-    pila_o.push(p[-1],d_functions.get_variable_type(p[-1]))
+    pila_o.push(d_functions.get_variable_address(p[-1]),d_functions.get_variable_type(p[-1]))
     
                 
 def p_action_1_2_int(p):
     'ACTION_1_2_INT :'
-    pila_o.push(p[-1],"int")
+    pila_o.push(memory_manager.allocate('Ci',p[-1]),"int")
     
 def p_action_1_2_float(p):
     'ACTION_1_2_FLOAT :'
-    pila_o.push(p[-1],"float")
+    pila_o.push(memory_manager.allocate('Cf',p[-1]),"float")
 
 def p_action_2_2(p):
     'ACTION_2_2 :'
@@ -187,7 +194,7 @@ def p_action_4_2(p):
         operator = poper.pop()
         result_type = SEM[operator][left_type][right_type]
         if(result_type != "error"):
-            quadruples.add_entry(operator,left_op,right_op)
+            quadruples.add_entry(operator,left_op,right_op,None,result_type)
             last_result = quadruples.get_last_result()
             pila_o.push(last_result,result_type)
         else:
@@ -201,7 +208,7 @@ def p_action_5_2(p):
         operator = poper.pop()
         result_type = SEM[operator][left_type][right_type]
         if(result_type != "error"):
-            quadruples.add_entry(operator,left_op,right_op)
+            quadruples.add_entry(operator,left_op,right_op,None,result_type)
             last_result = quadruples.get_last_result()
             pila_o.push(last_result,result_type)
         else:
@@ -227,7 +234,7 @@ def p_action_9_2(p):
         operator = poper.pop()
         result_type = SEM[operator][left_type][right_type]
         if(result_type != "error"):
-            quadruples.add_entry(operator,left_op,right_op)
+            quadruples.add_entry(operator,left_op,right_op,None, result_type)
             last_result = quadruples.get_last_result()
             pila_o.push(last_result,result_type)
         else:
@@ -241,7 +248,7 @@ def p_action_10_2(p):
     operator = poper.pop()
     result_type = SEM[operator][left_type][right_type]
     if(result_type != "error"):
-        quadruples.add_entry(operator,right_op,None,left_op)
+        quadruples.add_entry(operator,right_op,None,left_op,None,result_type)
         last_result = quadruples.get_last_result()
         pila_o.push(last_result,result_type)
     else:
@@ -264,7 +271,7 @@ def p_more_expresions(p):
                        
 def p_action_1_print(p):
     'ACTION_1_PRINT :'
-    pila_o.push(p[-1],"string")
+    pila_o.push(memory_manager.allocate('Cs',p[-1]),"string")
     
 def p_action_2_print(p):
     'ACTION_2_PRINT :'
@@ -315,7 +322,7 @@ def p_action_1_if(p):
     if(exp_type != "bool"):
         raise ValueError("Type Mismatch")
     else:
-        quadruples.add_entry("gotoF",result, None, None)
+        quadruples.add_entry("gotoF",result)
         psaltos.push(quadruples.size()-1)
         
 def p_action_2_if(p):
@@ -325,7 +332,7 @@ def p_action_2_if(p):
     
 def p_action_3_if(p):
     'ACTION_3_IF :'
-    quadruples.add_entry("goto",None, None,None)
+    quadruples.add_entry("goto")
     _false = psaltos.pop()
     psaltos.push(quadruples.size()-1)
     quadruples.update_result(_false,quadruples.size())

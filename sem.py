@@ -1,10 +1,106 @@
+class MemoryManager:
+    def __init__(self):
+        # Lists for storing variable values
+        self.global_ints = []
+        self.global_floats = []
+        self.temp_ints = []
+        self.temp_floats = []
+        self.temp_bools = []
+        self.const_ints = []
+        self.const_floats = []
+        self.const_strings = []
+
+        # Base addresses for each memory segment
+        self.base_addresses = {
+            'Gi': 1000,
+            'Gf': 2000,
+            'Ti': 3000,
+            'Tf': 4000,
+            'Tb': 5000,
+            'Ci': 6000,
+            'Cf': 7000,
+            'Cs': 8000,
+        }
+
+    def allocate(self, segment, value):
+        """
+        Method to allocate memory for a variable in the specified segment
+        and store its value. Returns the virtual address of the allocated memory.
+        """
+        base_address = self.base_addresses[segment]
+        if segment == 'Gi':
+            self.global_ints.append(value)
+            return base_address + len(self.global_ints) - 1
+        elif segment == 'Gf':
+            self.global_floats.append(value)
+            return base_address + len(self.global_floats) - 1
+        elif segment == 'Ti':
+            self.temp_ints.append(value)
+            return base_address + len(self.temp_ints) - 1
+        elif segment == 'Tf':
+            self.temp_floats.append(value)
+            return base_address + len(self.temp_floats) - 1
+        elif segment == 'Tb':
+            self.temp_bools.append(value)
+            return base_address + len(self.temp_bools) - 1
+        elif segment == 'Ci':
+            self.const_ints.append(value)
+            return base_address + len(self.const_ints) - 1
+        elif segment == 'Cf':
+            self.const_floats.append(value)
+            return base_address + len(self.const_floats) - 1
+        elif segment == 'Cs':
+            self.const_strings.append(value[1:-1])
+            return base_address + len(self.const_strings) - 1
+        else:
+            raise ValueError("Invalid memory segment")
+
+    def get_value(self, address):
+        """
+        Method to retrieve the value stored at a given virtual address.
+        """
+        if 1000 <= address < 2000:
+            return self.global_ints[address - 1000]
+        elif 2000 <= address < 3000:
+            return self.global_floats[address - 2000]
+        elif 3000 <= address < 4000:
+            return self.temp_ints[address - 3000]
+        elif 4000 <= address < 5000:
+            return self.temp_floats[address - 4000]
+        elif 5000 <= address < 6000:
+            return self.temp_bools[address - 5000]
+        elif 6000 <= address < 7000:
+            return self.const_ints[address - 6000]
+        elif 7000 <= address < 8000:
+            return self.const_floats[address - 7000]
+        elif 8000 <= address < 9000:
+            return self.const_strings[address - 8000]
+        else:
+            raise ValueError("Invalid memory address")
+        
+    def display_memory(self):
+        """
+        Method to display all memory segments.
+        """
+        print("Global Integers:", self.global_ints)
+        print("Global Floats:", self.global_floats)
+        print("Temporary Integers:", self.temp_ints)
+        print("Temporary Floats:", self.temp_floats)
+        print("Temporary Booleans:", self.temp_bools)
+        print("Constant Integers:", self.const_ints)
+        print("Constant Floats:", self.const_floats)
+        print("Constant Strings:", self.const_strings)
+
+
+
 
 # Creation of class to define the structure of D_Functions & D_Vars
 class D_Functions:
-    def __init__(self):
+    def __init__(self, memory_manager):
         self.functions = {}  # Dictionary to save all the functions
         self.current_function = None
         self.global_function = None  # Variable to store the global function name
+        self.memory_manager = memory_manager
 
     def add_function(self, function_name, function_type):
         if function_name not in self.functions:
@@ -23,7 +119,34 @@ class D_Functions:
             elif self.global_function is not None and self.global_function in self.functions and variable_name in self.functions[self.global_function]['variables']:
                 raise ValueError("The variable already exists in the global scope.")
             else:
-                self.functions[self.current_function]['variables'][variable_name] = variable_type
+                # Determine the memory segment and default value
+                if self.current_function == self.global_function:
+                    if variable_type == 'int':
+                        segment = 'Gi'
+                        default_value = 0
+                    elif variable_type == 'float':
+                        segment = 'Gf'
+                        default_value = 0.0
+                    else:
+                        raise ValueError("Invalid global variable type")
+                else:
+                    if variable_type == 'int':
+                        segment = 'Ti'
+                        default_value = 0
+                    elif variable_type == 'float':
+                        segment = 'Tf'
+                        default_value = 0.0
+                    elif variable_type == 'bool':
+                        segment = 'Tb'
+                        default_value = False
+                    else:
+                        raise ValueError("Invalid local variable type")
+                
+                # Allocate memory and get the address
+                address = self.memory_manager.allocate(segment, default_value)
+                
+                # Save the variable's name and memory address
+                self.functions[self.current_function]['variables'][variable_name] = address
         else:
             raise ValueError("No current function selected.")
 
@@ -34,13 +157,43 @@ class D_Functions:
         """
         # Check in the current function
         if self.current_function and variable_name in self.functions[self.current_function]['variables']:
+            address = self.functions[self.current_function]['variables'][variable_name]
+        # Check in the global function
+        elif self.global_function and variable_name in self.functions[self.global_function]['variables']:
+            address = self.functions[self.global_function]['variables'][variable_name]
+        else:
+            raise ValueError("Variable not found")  # Variable not found in either scope
+
+        # Determine the type based on the address range
+        if 1000 <= address < 2000:
+            return 'int'
+        elif 2000 <= address < 3000:
+            return 'float'
+        elif 3000 <= address < 4000:
+            return 'int'
+        elif 4000 <= address < 5000:
+            return 'float'
+        elif 5000 <= address < 6000:
+            return 'bool'
+        else:
+            raise ValueError("Invalid memory address")
+        
+    def get_variable_address(self, variable_name):
+        """
+        Method to get the memory address of a variable by first looking in the current function's scope,
+        and if not found, looking in the global function's scope.
+        """
+        # Check in the current function
+        if self.current_function and variable_name in self.functions[self.current_function]['variables']:
             return self.functions[self.current_function]['variables'][variable_name]
         # Check in the global function
         elif self.global_function and variable_name in self.functions[self.global_function]['variables']:
             return self.functions[self.global_function]['variables'][variable_name]
         else:
-            raise ValueError("Variable not found")  # Variable not found in either scope
-
+            raise ValueError("Variable not found: ",variable_name)  # Variable not found in either scope
+        
+        
+        
 
 # Stack PilaO class
 class PilaO:
@@ -54,7 +207,7 @@ class PilaO:
         """
         self.pila_operandos.append(operando)
         self.pila_tipos.append(tipo)
-        print(f"Added operand: {operando} with type: {tipo}")
+        #print(f"Added operand: {operando} with type: {tipo}")
 
     def pop(self):
         """
@@ -63,10 +216,10 @@ class PilaO:
         if not self.is_empty():
             operando = self.pila_operandos.pop()
             tipo = self.pila_tipos.pop()
-            print(f"Removed operand: {operando} with type: {tipo}")
+            #print(f"Removed operand: {operando} with type: {tipo}")
             return operando, tipo
         else:
-            print("The stacks are empty")
+            #print("The stacks are empty")
             return None, None
 
     def top(self):
@@ -78,7 +231,7 @@ class PilaO:
             tipo = self.pila_tipos[-1]
             return operando, tipo
         else:
-            print("The stacks are empty")
+            #print("The stacks are empty")
             return None, None
 
     def is_empty(self):
@@ -106,7 +259,7 @@ class Pila:
         Method to add an element to the stack.
         """
         self.stack.append(element)
-        print(f"Added {self.name}: {element}")
+        #print(f"Added {self.name}: {element}")
 
     def pop(self):
         """
@@ -114,10 +267,10 @@ class Pila:
         """
         if not self.is_empty():
             element = self.stack.pop()
-            print(f"Removed {self.name}: {element}")
+            #print(f"Removed {self.name}: {element}")
             return element
         else:
-            print(f"The {self.name} stack is empty")
+            #print(f"The {self.name} stack is empty")
             return None
 
     def top(self):
@@ -128,7 +281,7 @@ class Pila:
             element = self.stack[-1]
             return element
         else:
-            print(f"The {self.name} stack is empty")
+            #print(f"The {self.name} stack is empty")
             return None
 
     def is_empty(self):
@@ -147,18 +300,25 @@ class Pila:
 
 # Table of Quadruples class
 class Quadruples:
-    def __init__(self):
+    def __init__(self, memory_manager):
         # Initialize the table as a list of dictionaries
         self.table = []
-        self.result_counter = 1  # Counter for result naming
+        self.memory_manager = memory_manager
 
-    def add_entry(self, action, left_side=None, right_side=None, result=None):
+    def add_entry(self, action, left_side=None, right_side=None,result=None, result_type=None):
         """
-        Method to add an entry to the quadruples table. The result field is automatically generated if its not none.
+        Method to add an entry to the quadruples table. The result field is automatically generated based on the result type.
         """
-        if(result == None):
-            result = f"t{self.result_counter}"
-            self.result_counter += 1
+        if result_type is not None:
+            if result_type == 'int':
+                result = self.memory_manager.allocate('Ti', 0)
+            elif result_type == 'float':
+                result = self.memory_manager.allocate('Tf', 0.0)
+            elif result_type == 'bool':
+                result = self.memory_manager.allocate('Tb', False)
+            else:
+                raise ValueError("Unsupported result type")
+
         entry = {
             'action': action,
             'left_side': left_side,
@@ -166,7 +326,7 @@ class Quadruples:
             'result': result
         }
         self.table.append(entry)
-        print(f"Added entry: {entry}")
+        #print(f"Added entry: {entry}")
 
     def get_entry(self, index):
         """
@@ -175,7 +335,7 @@ class Quadruples:
         if 0 <= index < len(self.table):
             return self.table[index]
         else:
-            print("Index out of range")
+            #print("Index out of range")
             return None
         
     def get_last_result(self):
@@ -194,7 +354,7 @@ class Quadruples:
         """
         if 0 <= index < len(self.table):
             self.table[index]['result'] = new_result
-            print(f"Updated entry at index {index} with new result: {new_result}")
+            #print(f"Updated entry at index {index} with new result: {new_result}")
         else:
             print("Index out of range")
 
@@ -212,7 +372,10 @@ class Quadruples:
             print(f"{index}: {entry}")
 
 
-    
+
+
+
+
 # Definition of Semantic Cube
 SEM = {
     '+': {

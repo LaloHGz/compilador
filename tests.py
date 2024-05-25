@@ -160,7 +160,7 @@ main{
   
 end''',
 
-
+#test 7 - tiene que dar error
 '''
 program test;
 var A: int;
