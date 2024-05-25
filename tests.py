@@ -79,6 +79,7 @@ main {
     } else {
         print("Negative");
     };
+    print("holaaa");
 }
 end
 ''',
@@ -142,6 +143,7 @@ void atp(n_player:int, ace: int, wins: int, ranking: int)[
 main {
     x = 6;
     print("fibonacci");
+    print(x * x / x + x);
     futbol(3527,123,54,120.2);
     atp(3527,123,54,120);
 } 
@@ -155,7 +157,37 @@ program prueba;
 
 main{
 
-}  
+  
+end''',
+
+
+'''
+program test;
+var A: int;
+B, H: float;
+C, D, E, F: int;
+void cylinderVolume(radius : float, height : float) [
+	var area_base, lado_r : float;
+	volumen : float;
+	{
+		area_base = area_base * volumen;
+	}
+];
+
+main {
+    if (A > E) {
+        B = H + 5;
+    } else {
+        C = A;
+    };
+    do {
+        A = A - B;
+        print("OLA");
+        print(A + B, "OLA2");
+    } while (A < B + C);
+    A = A + B;
+}
 end'''
+
 
 ]

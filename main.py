@@ -18,7 +18,7 @@ def testCase(n):
     parser.parse(tests[n])
     
 # run testCase n    
-testCase(0)
+testCase(5)
 
 print(d_functions.functions)
 

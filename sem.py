@@ -290,7 +290,7 @@ SEM = {
             'bool': 'error'  # Cannot assign bool to int
         },
         'float': {
-            'int': 'float', 
+            'int': 'error', # Cannot assign int to float
             'float': 'float',
             'bool': 'error'  # Cannot assign bool to float
         },

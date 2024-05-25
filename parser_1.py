@@ -153,6 +153,10 @@ def p_Sum_res_factor(p):
 def p_ID_CONST(p):
     '''ID_CONST : ID ACTION_1_2_ID
                 | CTE'''
+                
+def p_CTE(p):
+    '''CTE : CTE_INT ACTION_1_2_INT
+           | CTE_FLOAT ACTION_1_2_FLOAT'''
 
 def p_action_1_2_id(p):
     'ACTION_1_2_ID :'
@@ -243,9 +247,6 @@ def p_action_10_2(p):
     else:
         raise ValueError("Type mismatch")
 
-def p_CTE(p):
-    '''CTE : CTE_INT ACTION_1_2_INT
-           | CTE_FLOAT ACTION_1_2_FLOAT'''
 
 def p_PRINTF(p):
     'PRINTF : PRINT LPARENTHESES List_expresions RPARENTHESES SEMICOLON'
