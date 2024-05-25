@@ -1,3 +1,16 @@
+operation_codes = { '+': 1,
+                    '-': 2,
+                    '*': 3,
+                    '/': 4,
+                    '=': 5,
+                    '>': 6,
+                    '<': 7,
+                    '!=': 8,
+                    'print': 9,
+                    'gotoF': 10,
+                    'gotoV': 11,
+                    'goto': 12}
+
 class MemoryManager:
     def __init__(self):
         # Lists for storing variable values
@@ -305,11 +318,11 @@ class Quadruples:
         self.table = []
         self.memory_manager = memory_manager
 
-    def add_entry(self, action, left_side=None, right_side=None,result=None, result_type=None):
+    def add_entry(self, action, left_side=-1, right_side=-1,result=-1, result_type=-1):
         """
         Method to add an entry to the quadruples table. The result field is automatically generated based on the result type.
         """
-        if result_type is not None:
+        if result_type is not -1:
             if result_type == 'int':
                 result = self.memory_manager.allocate('Ti', 0)
             elif result_type == 'float':
@@ -336,7 +349,7 @@ class Quadruples:
             return self.table[index]
         else:
             #print("Index out of range")
-            return None
+            return -1
         
     def get_last_result(self):
         """
@@ -346,7 +359,7 @@ class Quadruples:
             return self.table[-1]['result']
         else:
             print("The quadruples table is empty")
-            return None
+            return -1
 
     def update_result(self, index, new_result):
         """
@@ -378,7 +391,7 @@ class Quadruples:
 
 # Definition of Semantic Cube
 SEM = {
-    '+': {
+    operation_codes['+']: {
         'int': {
             'int': 'int',
             'float': 'float',
@@ -395,7 +408,7 @@ SEM = {
             'bool': 'error'  # Operations with bool are errors
         }
     },
-    '-': {
+    operation_codes['-']: {
         'int': {
             'int': 'int',
             'float': 'float',
@@ -412,7 +425,7 @@ SEM = {
             'bool': 'error'  # Operations with bool are errors
         }
     },
-    '*': {
+    operation_codes['*']: {
         'int': {
             'int': 'int',
             'float': 'float',
@@ -429,7 +442,7 @@ SEM = {
             'bool': 'error'  # Operations with bool are errors
         }
     },
-    '/': {
+    operation_codes['/']: {
         'int': {
             'int': 'int',
             'float': 'float',
@@ -446,7 +459,7 @@ SEM = {
             'bool': 'error'  # Operations with bool are errors
         }
     },
-    '=': {
+    operation_codes['=']: {
         'int': {
             'int': 'int',
             'float': 'error',  # Cannot assign float to int
@@ -463,7 +476,7 @@ SEM = {
             'bool': 'bool'
         }
     },
-    '>': {
+    operation_codes['>']: {
         'int': {
             'int': 'bool',
             'float': 'bool',
@@ -480,7 +493,7 @@ SEM = {
             'bool': 'bool'
         }
     },
-    '<': {
+    operation_codes['<']: {
         'int': {
             'int': 'bool',
             'float': 'bool',
@@ -497,7 +510,7 @@ SEM = {
             'bool': 'bool'
         }
     },
-    '!=': {
+    operation_codes['!=']: {
         'int': {
             'int': 'bool',
             'float': 'bool',

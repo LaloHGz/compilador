@@ -8,18 +8,19 @@ def testCase(n):
     lexer.input(tests[n])
 
     # Tokenize
-    while True:
-        tok = lexer.token()
-        if not tok: 
-            break      # No more input
-        print(tok)
+    # while True:
+    #     tok = lexer.token()
+    #     if not tok: 
+    #         break      # No more input
+        #print(tok)
 
     #parser.parse(tests[n], tracking = True, debug = True)
     parser.parse(tests[n])
     
 # run testCase n    
-testCase(2)
+testCase(5)
 
-print(d_functions.functions)
+#print(d_functions.functions)
+print("\n\n")
 
 quadruples.display()

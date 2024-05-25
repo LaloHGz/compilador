@@ -1,6 +1,6 @@
 import ply.yacc as yacc
 from lexer import tokens
-from sem import D_Functions, SEM, PilaO, Pila, Quadruples, MemoryManager
+from sem import D_Functions, SEM, PilaO, Pila, Quadruples, MemoryManager, operation_codes
 
 # Create Virtual Memory Manager
 memory_manager = MemoryManager()
@@ -180,21 +180,21 @@ def p_action_1_2_float(p):
 
 def p_action_2_2(p):
     'ACTION_2_2 :'
-    poper.push(p[-1])
+    poper.push(operation_codes[p[-1]])
     
 def p_action_3_2(p):
     'ACTION_3_2 :'
-    poper.push(p[-1])
+    poper.push(operation_codes[p[-1]])
     
 def p_action_4_2(p):
     'ACTION_4_2 :'
-    if(poper.top() == "+" or poper.top() == "-"):
+    if(poper.top() == operation_codes["+"] or poper.top() == operation_codes["-"]):
         right_op, right_type = pila_o.pop()
         left_op, left_type = pila_o.pop()
         operator = poper.pop()
         result_type = SEM[operator][left_type][right_type]
         if(result_type != "error"):
-            quadruples.add_entry(operator,left_op,right_op,None,result_type)
+            quadruples.add_entry(operator,left_op,right_op,-1,result_type)
             last_result = quadruples.get_last_result()
             pila_o.push(last_result,result_type)
         else:
@@ -202,13 +202,13 @@ def p_action_4_2(p):
             
 def p_action_5_2(p):
     'ACTION_5_2 :'
-    if(poper.top() == "*" or poper.top() == "/"):
+    if(poper.top() == operation_codes["*"] or poper.top() == operation_codes["/"]):
         right_op, right_type = pila_o.pop()
         left_op, left_type = pila_o.pop()
         operator = poper.pop()
         result_type = SEM[operator][left_type][right_type]
         if(result_type != "error"):
-            quadruples.add_entry(operator,left_op,right_op,None,result_type)
+            quadruples.add_entry(operator,left_op,right_op,-1,result_type)
             last_result = quadruples.get_last_result()
             pila_o.push(last_result,result_type)
         else:
@@ -224,17 +224,17 @@ def p_action_7_2(p):
     
 def p_action_8_2(p):
     'ACTION_8_2 :'
-    poper.push(p[-1])
+    poper.push(operation_codes[p[-1]])
     
 def p_action_9_2(p):
     'ACTION_9_2 :'
-    if(poper.top() == ">" or poper.top() == "<" or poper.top() == "!="):
+    if(poper.top() == operation_codes[">"] or poper.top() == operation_codes["<"] or poper.top() == operation_codes["!="]):
         right_op, right_type = pila_o.pop()
         left_op, left_type = pila_o.pop()
         operator = poper.pop()
         result_type = SEM[operator][left_type][right_type]
         if(result_type != "error"):
-            quadruples.add_entry(operator,left_op,right_op,None, result_type)
+            quadruples.add_entry(operator,left_op,right_op,-1, result_type)
             last_result = quadruples.get_last_result()
             pila_o.push(last_result,result_type)
         else:
@@ -248,7 +248,7 @@ def p_action_10_2(p):
     operator = poper.pop()
     result_type = SEM[operator][left_type][right_type]
     if(result_type != "error"):
-        quadruples.add_entry(operator,right_op,None,left_op,None,result_type)
+        quadruples.add_entry(operator,right_op,-1,left_op)
         last_result = quadruples.get_last_result()
         pila_o.push(last_result,result_type)
     else:
@@ -276,7 +276,7 @@ def p_action_1_print(p):
 def p_action_2_print(p):
     'ACTION_2_PRINT :'
     elem, elem_type = pila_o.pop()
-    quadruples.add_entry("print",None,None,elem)
+    quadruples.add_entry(operation_codes["print"],-1,-1,elem)
     
 
 def p_CYCLE(p):
@@ -291,7 +291,7 @@ def p_action_2_dw(p):
     cond, cond_type = pila_o.pop()
     if(cond_type == "bool"):
         retorno = psaltos.pop()
-        quadruples.add_entry("gotoV",cond, None,retorno)
+        quadruples.add_entry(operation_codes["gotoV"],cond, -1,retorno)
     else:
         raise ValueError("Type mismatch condition type: ",cond_type,", expected bool")
 
@@ -322,7 +322,7 @@ def p_action_1_if(p):
     if(exp_type != "bool"):
         raise ValueError("Type Mismatch")
     else:
-        quadruples.add_entry("gotoF",result)
+        quadruples.add_entry(operation_codes["gotoF"],result)
         psaltos.push(quadruples.size()-1)
         
 def p_action_2_if(p):
@@ -332,7 +332,7 @@ def p_action_2_if(p):
     
 def p_action_3_if(p):
     'ACTION_3_IF :'
-    quadruples.add_entry("goto")
+    quadruples.add_entry(operation_codes["goto"])
     _false = psaltos.pop()
     psaltos.push(quadruples.size()-1)
     quadruples.update_result(_false,quadruples.size())

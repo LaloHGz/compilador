@@ -100,7 +100,7 @@ end
 # test 5
 '''
 program test5; 
-var x: int; 
+var x, fibonacci: int; 
     y : float; 
 
 void fibo(n:int)[
@@ -142,7 +142,8 @@ void atp(n_player:int, ace: int, wins: int, ranking: int)[
 
 main {
     x = 6;
-    print("fibonacci");
+    y = 7 / 25.3;
+    print("fibonacci", fibonacci);
     print(x * x / x + x);
     futbol(3527,123,54,120.2);
     atp(3527,123,54,120);
@@ -187,7 +188,84 @@ main {
     } while (A < B + C);
     A = A + B;
 }
-end'''
+end''',
+
+# Test case 8 Fibonacci using do while
+'''
+program fibonacci;
+var n, a, b, temp, i : int;
+
+main {
+    n = 10;  
+    a = 0;  
+    b = 1; 
+    i = 1;
+
+    print("Fibonacci Series:");
+
+    do {
+        print(a);
+        temp = a + b;
+        a = b;
+        b = temp;
+        i = i + 1;
+    }
+    while (i < n);
+} 
+
+end''',
+
+# Test Case 9 Fibonacci 2
+'''
+program test;
+
+    var fib_series, i, n, first, second, next : int;
+
+    main {
+        n = 10;  
+
+        first = 0;
+        second = 1;
+        i = 2;  
+               
+        print(first, " ");
+        print(second, " ");
+               
+        do {
+            next = first + second;
+            print(next, " ");
+            first = second;
+            second = next;
+            i = i + 1;
+        } while (i < n);
+
+    
+    }
+end
+''',
+
+
+# Test Case 10 - Factorial
+'''
+program test;
+
+    var factorial, i, n : int;
+
+    main {
+        factorial = 1;
+        i = 1;
+        n = 5;
+        do {
+            factorial = factorial * i;
+            i = i + 1;
+        } while (i < (n+1));
+        
+        print("El factorial es", factorial);
+    }
+
+    end
+'''
+
 
 
 ]
