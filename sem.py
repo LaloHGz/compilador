@@ -91,6 +91,31 @@ class MemoryManager:
         else:
             raise ValueError("Invalid memory address")
         
+        
+    def set_value(self, address, value):
+        """
+        Method to set the value stored at a given virtual address.
+        """
+        if 1000 <= address < 2000:
+            self.global_ints[address - 1000] = value
+        elif 2000 <= address < 3000:
+            self.global_floats[address - 2000] = value
+        elif 3000 <= address < 4000:
+            self.temp_ints[address - 3000] = value
+        elif 4000 <= address < 5000:
+            self.temp_floats[address - 4000] = value
+        elif 5000 <= address < 6000:
+            self.temp_bools[address - 5000] = value
+        elif 6000 <= address < 7000:
+            self.const_ints[address - 6000] = value
+        elif 7000 <= address < 8000:
+            self.const_floats[address - 7000] = value
+        elif 8000 <= address < 9000:
+            self.const_strings[address - 8000] = value
+        else:
+            raise ValueError("Invalid memory address")
+        
+        
     def display_memory(self):
         """
         Method to display all memory segments.
@@ -317,12 +342,21 @@ class Quadruples:
         # Initialize the table as a list of dictionaries
         self.table = []
         self.memory_manager = memory_manager
+        
+    def __getitem__(self, index):
+        """
+        Method to get an entry by index from the quadruples table.
+        """
+        if 0 <= index < len(self.table):
+            return self.table[index]
+        else:
+            raise IndexError("Index out of range")
 
     def add_entry(self, action, left_side=-1, right_side=-1,result=-1, result_type=-1):
         """
         Method to add an entry to the quadruples table. The result field is automatically generated based on the result type.
         """
-        if result_type is not -1:
+        if result_type != -1:
             if result_type == 'int':
                 result = self.memory_manager.allocate('Ti', 0)
             elif result_type == 'float':
