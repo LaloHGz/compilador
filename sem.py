@@ -13,6 +13,9 @@ operation_codes = { '+': 1,
 
 class MemoryManager:
     def __init__(self):
+        self.initialize_memory()
+
+    def initialize_memory(self):
         # Lists for storing variable values
         self.global_ints = []
         self.global_floats = []
@@ -34,7 +37,7 @@ class MemoryManager:
             'Cf': 7000,
             'Cs': 8000,
         }
-
+        
     def allocate(self, segment, value):
         """
         Method to allocate memory for a variable in the specified segment
@@ -115,6 +118,8 @@ class MemoryManager:
         else:
             raise ValueError("Invalid memory address")
         
+    def destroy(self):
+        self.initialize_memory()
         
     def display_memory(self):
         """
@@ -230,7 +235,10 @@ class D_Functions:
         else:
             raise ValueError("Variable not found: ",variable_name)  # Variable not found in either scope
         
-        
+    def destroy(self):
+        self.functions = {}
+        self.current_function = None
+        self.global_function = None
         
 
 # Stack PilaO class
@@ -277,12 +285,10 @@ class PilaO:
         Method to check if the stacks are empty.
         """
         return len(self.pila_operandos) == 0 and len(self.pila_tipos) == 0
-
-    def size(self):
-        """
-        Method to get the size of the stacks.
-        """
-        return len(self.pila_operandos)
+    
+    def destroy(self):
+        self.pila_operandos = []
+        self.pila_tipos = []
 
     
     
@@ -328,12 +334,8 @@ class Pila:
         """
         return len(self.stack) == 0
 
-    def size(self):
-        """
-        Method to get the size of the stack.
-        """
-        return len(self.stack)
-
+    def destroy(self):
+        self.stack = []
 
 
 # Table of Quadruples class
@@ -411,12 +413,16 @@ class Quadruples:
         """
         return len(self.table)
 
+    def destroy(self):
+        self.table = []
+
     def display(self):
         """
         Method to display the entire quadruples table.
         """
         for index, entry in enumerate(self.table):
             print(f"{index}: {entry}")
+
 
 
 

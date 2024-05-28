@@ -25,7 +25,14 @@ quadruples = Quadruples(memory_manager)
 
 # Parsing rules
 def p_Programa(p):
-    'Programa : PROGRAM ID ACTION_1 SEMICOLON Declare_var Declare_func MAIN BODY END'
+    'Programa : PROGRAM ID ACTION_1 SEMICOLON Declare_var Declare_func MAIN BODY END FINAL_ACTION'
+
+def p_final_actionn(p):
+    'FINAL_ACTION :'
+    d_functions.destroy()
+    pila_o.destroy()
+    poper.destroy()
+    psaltos.destroy()
     
 # Initialize D_Functions & D_Vars 
 def p_action_1(p):
