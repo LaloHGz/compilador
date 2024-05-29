@@ -100,10 +100,12 @@ def run_test_case(case_number):
                 # goto
                 ip = quadruples[ip]['result']
 
-
     # Llamar a destroy en todas las clases
     memory_manager.destroy()
     quadruples.destroy()
   
   
-run_test_case(23)  
+for i in range(0,24):
+    print("Test Case #",i)
+    run_test_case(i)  
+    print("\n-------------------------------")
